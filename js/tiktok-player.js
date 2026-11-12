@@ -1,5 +1,5 @@
-// TikTok can return HTTP 200 with a player-level server error. A load event
-// alone is not evidence that a publication is ready to play.
+// Keep TikTok's native cover and controls. Load visible posts automatically;
+// an optional player-ready message must not keep the native preview covered.
 export function setupTikTokPlayers(cards) {
   const players = new Map();
   function measure(card) {
@@ -47,30 +47,26 @@ export function setupTikTokPlayers(cards) {
       player.timer = setTimeout(fail, 15000);
     }
     frame.addEventListener('error', fail);
-    // HTTP 429 pages also fire load. Reveal only after TikTok's ready message.
+    frame.addEventListener('load', () => {
+      if (player.failed) return;
+      clearTimeout(player.timer);
+      loading.hidden = true;
+      frame.classList.remove('tiktok-pending');
+    });
     retry.addEventListener('click', start);
-    shell.append(frame, overlay);
     players.set(card, player);
     measure(card); start();
+    // Set src before insertion so an initial about:blank load cannot reveal a
+    // still-empty frame or dismiss the loading state ahead of TikTok's document.
+    shell.append(frame, overlay);
   }
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {
-      if (!entry.isIntersecting) pause(entry.target);
+      if (entry.isIntersecting) load(entry.target);
+      else pause(entry.target);
     }
   }, { threshold: .05 });
-  cards.forEach(card => {
-    const shell = card.querySelector('.story-player');
-    card.querySelector('.story-player-loading').hidden = true;
-    const activate = document.createElement('button');
-    activate.type = 'button'; activate.className = 'tiktok-activate';
-    const play = document.createElement('span'); play.className = 'tiktok-play-icon';
-    play.setAttribute('aria-hidden', 'true'); play.textContent = '▶';
-    const label = document.createElement('span'); label.dataset.i18n = 'tiktokActivate';
-    label.textContent = document.documentElement.lang === 'en' ? 'Load TikTok' : 'Ver TikTok';
-    activate.append(play, label);
-    activate.addEventListener('click', () => { activate.hidden = true; load(card); });
-    shell.append(activate); observer.observe(card);
-  });
+  cards.forEach(card => observer.observe(card));
   addEventListener('message', event => {
     if (event.origin !== 'https://www.tiktok.com' || !event.data?.['x-tiktok-player']) return;
     const player = [...players.values()].find(player => player.frame.contentWindow === event.source);

@@ -1,5 +1,5 @@
-import { createTrackRow, setupPlatforms } from './music.js?v=20261112-tiktok2';
-import { createStoryRail } from './story-rail.js?v=20261112-tiktok2';
+import { createTrackRow, setupPlatforms } from './music.js?v=20261112-tiktok3';
+import { createStoryRail } from './story-rail.js?v=20261112-tiktok3';
 
 const root = document.documentElement;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
