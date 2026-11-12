@@ -85,10 +85,10 @@ La biografía aprobada se trasladó completa al cuaderno. Prensa, fotos y redes 
 
 La hoja usa dieciséis segmentos con anverso y reverso: la curvatura crece durante el giro y desaparece al asentarse, donde se dibuja una cara completa para evitar costuras. Las texturas vectoriales están en `assets/textures/`. La colección de merch contiene doce productos conceptuales y mantiene fondo blanco, prendas negras y etiquetas pequeñas.
 
-## Pasar páginas con esfuerzo y final completo
+## Transiciones y flechas del cuaderno
 
-La cubierta, el paso a la biografía y la salida del libro tienen umbrales de scroll. Un recorrido pequeño mantiene la página actual; al superar el umbral, una animación temporal termina el giro aunque se deje de mover la rueda o el dedo. La vuelta usa un umbral distinto para evitar cambios repetidos por pequeñas oscilaciones. Los botones del índice conservan el acceso directo.
+El giro sigue directamente el scroll: detenerse permite mirar la hoja a medio pasar, según la preferencia final del usuario. Las flechas dibujadas en ambos lados permiten volver a la cubierta, abrir el índice, pasar a la biografía y salir al viaje. Su recorrido mantiene fotogramas intermedios aunque Chrome se ralentice; rueda, gesto táctil o teclado cancelan ese recorrido para devolver el control manual.
 
-`js/book.js` define las duraciones y umbrales. `scripts/check-book-snap.cjs` verifica el comportamiento en escritorio y móvil, incluida la pausa a mitad del recorrido de scroll, los gestos cortos y la vuelta. Ejecutarlo con Node y Playwright, con el servidor local activo.
+La salida del libro enlaza con scroll normal. En movimiento reducido o ventanas muy bajas se conserva la lectura en flujo normal. Schoolbell se precarga; los archivos CSS/JS llevan una versión explícita en sus URLs para evitar mezclar recursos viejos en caché después de publicar en GitHub Pages.
 
-Se reemplazaron los asteriscos naranjas del índice y del bloque DREAMER por garabatos originales en trazo grafito.
+`node scripts/check-book-transitions.cjs` comprueba giros intermedios, ambas flechas, vuelta, salida y carga de recursos bajo `/Ben_Carrillo/`. Se puede configurar `SITE_URL` para apuntar al servidor local o al sitio publicado. Los asteriscos naranjas del índice y DREAMER se reemplazaron por garabatos en grafito.

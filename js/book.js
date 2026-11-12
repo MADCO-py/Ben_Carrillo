@@ -11,22 +11,6 @@ const clamp = n => Math.max(0, Math.min(1, n));
 const ease = n => { const x=clamp(n);return x*x*(3-2*x); };
 let raf = false;
 let language='es', copy={};
-// Scroll builds up a gesture; each threshold launches a complete, timed turn.
-// Hysteresis prevents a small scroll reversal from repeatedly turning a page.
-const motion={
-  open:{value:0,from:0,target:0,start:0,duration:780},
-  turn:{value:0,from:0,target:0,start:0,duration:920},
-  exit:{value:0,from:0,target:0,start:0,duration:650}
-};
-let desiredOpen=0,desiredTurn=0,desiredExit=0;
-const motionEase=x=>x<.5?16*x*x*x*x*x:1-Math.pow(-2*x+2,5)/2;
-function advanceMotion(channel,target,now){
-  if(channel.target!==target){channel.from=channel.value;channel.target=target;channel.start=now;}
-  const progress=clamp((now-channel.start)/channel.duration);
-  channel.value=progress>=1?target:channel.from+(target-channel.from)*motionEase(progress);
-  return progress<1&&channel.from!==target;
-}
-
 function clonePage(source, target) {
   const clone=source.cloneNode(true);
   clone.removeAttribute('id');
@@ -63,7 +47,10 @@ const castShadow=document.createElement('div');castShadow.className='page-cast-s
 let pageWidth=0;
 function measureLeaf(){pageWidth=innerWidth*(innerWidth<=700?1:.5);turningPage.style.setProperty('--leaf-width',pageWidth+'px');}
 measureLeaf();addEventListener('resize',measureLeaf);
+let lastCurveTurn=-1;
 function curveLeaf(turn) {
+  if(Math.abs(lastCurveTurn-turn)<.000001)return;
+  lastCurveTurn=turn;
   turningPage.classList.toggle('leaf-flat-front',turn<.001);
   turningPage.classList.toggle('leaf-flat-back',turn>.999);
   const slice=pageWidth/stripCount,amplitude=Math.sin(Math.PI*turn)*.72;
@@ -87,17 +74,12 @@ function updateBook() {
   }
   const travel=section.offsetHeight-innerHeight;
   const p=clamp(-section.getBoundingClientRect().top/travel);
-  if(p>=.13)desiredOpen=1;else if(p<=.065)desiredOpen=0;
-  if(p>=.49)desiredTurn=1;else if(p<=.43)desiredTurn=0;
-  if(p>=.88)desiredExit=1;else if(p<=.82)desiredExit=0;
-  if(!desiredOpen)desiredTurn=0;
-  const now=performance.now();
-  const openPending=advanceMotion(motion.open,desiredOpen||motion.turn.value>.001?1:0,now);
-  const turnPending=advanceMotion(motion.turn,motion.open.value>=.999?desiredTurn:0,now);
-  const readyToLeave=motion.open.value>=.999&&motion.turn.value>=.999;
-  const exitPending=advanceMotion(motion.exit,desiredExit&&readyToLeave?1:0,now);
-  const open=motion.open.value,turn=motion.turn.value,exit=motion.exit.value;
-  const turning=turn>.001;
+  // The sheet follows the actual scroll position. No timed jump can skip the
+  // visible turn, and pausing the scroll intentionally pauses the page.
+  const open=ease(p/.23);
+  const turn=ease((p-.40)/.22);
+  const exit=ease((p-.82)/.18);
+  const turning=turn>.0001;
   notebook.style.setProperty('--book-open',open);
   notebook.style.setProperty('--book-turn',turn);
   curveLeaf(turn);
@@ -117,24 +99,53 @@ function updateBook() {
   stage.style.pointerEvents=exit>.95?'none':'auto';
   document.body.classList.toggle('book-closed',open<.5);
   const active=open<.5?'cover':turn<.5?'index':'bio';
+  const previous=document.querySelector('.book-arrow-prev');
+  const following=document.querySelector('.book-arrow-next');
+  previous.disabled=(open<=.001&&turn<=.001)||exit>.95;
+  previous.dataset.bookStep=turn>.001?'index':'cover';
+  following.dataset.bookStep=open<.999?'index':turn<.999?'bio':'journey';
+  following.disabled=exit>.95;
+  previous.style.opacity=previous.disabled?'0':String((1-exit)*.65);
+  following.style.opacity=String((1-exit)*.65);
+  previous.style.pointerEvents=previous.disabled?'none':'auto';
+  previous.setAttribute('aria-hidden',String(previous.disabled));
+
   const next=document.querySelector('.open-book');
   next.dataset.bookStep=active==='cover'?'index':active==='index'?'bio':'journey';
   next.dataset.i18n=active==='cover'?'openBook':active==='index'?'turnPage':'startJourney';
   if(copy[next.dataset.i18n])next.textContent=copy[next.dataset.i18n];
   document.querySelectorAll('.book-pagination button').forEach(b=>{if(b.dataset.bookStep===active)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
-  if(openPending||turnPending||exitPending||Math.abs(motion.open.value-desiredOpen)>.001||Math.abs(motion.turn.value-desiredTurn)>.001)queueBook();
+
 }
 function queueBook(){if(!raf){raf=true;requestAnimationFrame(updateBook);}}
 bookMode.addEventListener('change',queueBook);
 addEventListener('scroll',queueBook,{passive:true});addEventListener('resize',queueBook);document.fonts.ready.then(queueBook);
+let navigationFrame=0;
+function cancelBookNavigation(){if(navigationFrame){cancelAnimationFrame(navigationFrame);navigationFrame=0;}}
+function scrollToBook(top){
+  cancelBookNavigation();
+  const from=scrollY,distance=top-from;
+  let elapsed=0,previous=performance.now();
+  const duration=Math.max(700,Math.min(1200,Math.abs(distance)*.7));
+  function frame(now){
+    // Keep visible intermediate frames even if Chrome briefly stalls on paint.
+    elapsed+=Math.min(32,Math.max(0,now-previous));previous=now;
+    const progress=clamp(elapsed/duration);
+    window.scrollTo({top:from+distance*ease(progress),behavior:'instant'});
+    updateBook();
+    if(progress<1)navigationFrame=requestAnimationFrame(frame);else navigationFrame=0;
+  }
+  navigationFrame=requestAnimationFrame(frame);
+}
+for(const event of ['wheel','touchstart','pointerdown','keydown'])addEventListener(event,cancelBookNavigation,{passive:true});
 function goToBook(step) {
   let target;
   if(staticBook()) target=step==='bio'?biography:step==='index'?index:step==='journey'?document.querySelector('#presentacion'):section;
   if(target){target.scrollIntoView({behavior:'auto',block:'start'});target.inert=false;}
   else {
-    const ratio={cover:0,index:.31,bio:.64,journey:1.05}[step]||0;
+    const ratio={cover:0,index:.31,bio:.70,journey:1.05}[step]||0;
     const top=section.getBoundingClientRect().top+scrollY+(section.offsetHeight-innerHeight)*ratio;
-    window.scrollTo({top,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+    scrollToBook(top);
   }
 }
 document.querySelectorAll('[data-book-step]:not(.leaf-face [data-book-step]):not(.cover-inside [data-book-step])').forEach(b=>b.addEventListener('click',()=>goToBook(b.dataset.bookStep)));

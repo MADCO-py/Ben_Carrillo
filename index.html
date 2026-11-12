@@ -10,16 +10,17 @@
   <meta property="og:type" content="website">
   <title>BEN CARRILLO — De Guatemala para el mundo</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/schoolbell.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="assets/fonts/font-2.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="assets/images/artista/ben.webp" as="image">
-  <link rel="stylesheet" href="css/fonts.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/handwritten.css">
-  <link rel="stylesheet" href="css/book.css">
-  <link rel="stylesheet" href="css/schoolbell.css">
-  <link rel="stylesheet" href="css/art-direction.css">
-  <script type="module" src="js/app.js"></script>
-  <script type="module" src="js/book.js"></script>
+  <link rel="stylesheet" href="css/fonts.css?v=20261111-scroll">
+  <link rel="stylesheet" href="css/style.css?v=20261111-scroll">
+  <link rel="stylesheet" href="css/handwritten.css?v=20261111-scroll">
+  <link rel="stylesheet" href="css/book.css?v=20261111-scroll">
+  <link rel="stylesheet" href="css/schoolbell.css?v=20261111-scroll">
+  <link rel="stylesheet" href="css/art-direction.css?v=20261111-scroll">
+  <script type="module" src="js/app.js?v=20261111-scroll"></script>
+  <script type="module" src="js/book.js?v=20261111-scroll"></script>
 </head>
 <body>
   <a class="skip-link" href="#contenido" data-i18n="skip">Saltar al contenido</a>
@@ -60,6 +61,8 @@
           <div class="turning-page" aria-hidden="true"><div class="leaf-face leaf-front"></div><div class="leaf-face leaf-back"></div></div>
           <div class="book-cover" id="book-cover"><div class="cover-face"><div class="cover-spine" aria-hidden="true"></div><span class="cover-edition">GUATEMALA / VOL. 01</span><h2 class="handwritten cover-title">Ben<br>Carrillo</h2><div class="cover-sticker sticker-antigua"><img src="assets/images/stickers/antigua.png" alt="Sticker: Antigua Guatemala" width="1000" height="1000"></div><div class="cover-sticker sticker-tikal"><img src="assets/images/stickers/tikal.png" alt="Sticker: Tikal, Guatemala" width="1000" height="1000"></div><div class="cover-sticker sticker-quetzal"><img src="assets/images/stickers/quetzal.png" alt="Sticker: quetzal" width="345" height="600"></div><div class="cover-sticker sticker-camioneta"><img src="assets/images/stickers/camioneta.png" alt="Sticker: camioneta guatemalteca" width="1000" height="1000"></div><div class="cover-sticker sticker-hecho-en-guatemala"><img src="assets/images/stickers/hecho-en-guatemala.png" alt="Sticker: Made in Guatemala" width="360" height="360"></div><span class="cover-bottom handwritten" data-i18n="coverNote">canciones, raíces y otras cosas.</span><span class="book-elastic" aria-hidden="true"></span></div><div class="cover-inside" aria-hidden="true"></div></div>
         </div>
+        <button type="button" class="book-arrow book-arrow-prev" data-book-step="cover" aria-label="Página anterior" disabled><svg viewBox="0 0 65 110" aria-hidden="true"><path d="M49 54C34 51 25 53 10 58M10 58c9-9 13-17 21-22M10 58c11 8 14 15 22 20M14 60c11-2 23-1 31-3"/></svg></button>
+        <button type="button" class="book-arrow book-arrow-next" data-book-step="index" aria-label="Página siguiente"><svg viewBox="0 0 65 110" aria-hidden="true"><path d="M13 57c15-3 26-1 42-4M55 53c-8-7-13-14-22-21M55 53c-9 9-12 18-22 24M13 60c13-2 22-1 36-5"/></svg></button>
         <div class="book-bottomline"><button type="button" class="handwritten open-book" data-book-step="index" data-i18n="openBook">Bajá para abrir mi cuaderno ↓</button><div class="book-pagination" aria-label="Páginas del cuaderno"><button data-book-step="cover" type="button" aria-label="Portada" aria-current="step">01</button><span></span><button data-book-step="index" type="button" aria-label="Índice">02</button><span></span><button data-book-step="bio" type="button" aria-label="Biografía">03</button></div><a href="#presentacion" class="skip-book" data-i18n="skipBook">Ir al viaje ↗</a></div>
       </div>
     </section>

@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
  const errors=[];
  const page=await browser.newPage({viewport:{width:1440,height:960},deviceScaleFactor:1});
  page.on('pageerror',e=>errors.push(e.message));
- await page.goto('http://127.0.0.1:4173',{waitUntil:'networkidle'});
+ await page.goto(process.env.SITE_URL || 'http://127.0.0.1:4173',{waitUntil:'networkidle'});
  await page.evaluate(()=>document.fonts.ready);
  await page.waitForSelector('.track');
  assert.equal(await page.locator('.track').count(),3);
