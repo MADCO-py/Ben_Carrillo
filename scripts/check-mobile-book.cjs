@@ -20,6 +20,13 @@ const {chromium, firefox} = require(process.env.PLAYWRIGHT_MODULE || 'playwright
   await page.screenshot({path:`artifacts/book-phone-cover-${width}-${height}.png`});
   await move(.31);
   await page.screenshot({path:`artifacts/book-phone-index-${width}-${height}.png`});
+  for(const partial of [.08,.115,.20,.48,.54,.59]){
+    await move(partial);
+    const bounds=await page.locator('.book-stage').boundingBox();
+    assert(bounds.y<=1&&bounds.y+bounds.height>=height-1,'Pinned stage covers the screen during the gesture');
+    assert.equal(await page.locator('.book-stage').evaluate(el=>getComputedStyle(el,'::before').content),'""','Paper backing covers perspective and toolbar gaps');
+  }
+  await page.screenshot({path:`artifacts/book-phone-mid-turn-${width}-${height}.png`});
   await move(.585);
   assert.equal(await page.locator('.bio-photo-page').first().evaluate(el=>getComputedStyle(el).visibility),'visible','Photo is present while the mobile sheet reveals the biography');
   assert(!(await page.locator('.turning-page').getAttribute('class')).includes('gpu-page'),'Mobile uses native sheet composition');

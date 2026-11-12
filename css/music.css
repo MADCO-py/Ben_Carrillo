@@ -14,18 +14,18 @@
 .platform-option{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px;background:#ffffff08;color:inherit;border:1px solid #ffffff40;font-size:14px;text-align:left}
 .platform-option:hover,.platform-option[aria-pressed=true]{background:#fff;color:#22231e}
 .platform-option>span:last-child{font-size:12px}
-.music .track{display:grid;grid-template-columns:40px minmax(0,1fr) minmax(320px,46%);gap:25px;padding:24px 0;align-items:center;color:inherit}
+.music .track{display:grid;grid-template-columns:40px minmax(0,1fr) minmax(280px,350px);gap:25px;padding:14px 0;align-items:center;color:inherit}
 .music .track:hover{padding-left:0;color:inherit}
 .track-meta{min-width:0}
 .track-meta small{display:block;margin-top:10px}
-.track iframe{display:block;width:100%;height:152px;border:0;border-radius:12px;box-sizing:content-box}
+.track iframe{display:block;width:100%;height:80px;border:0;border-radius:12px;box-sizing:content-box}
 .dreamer-banner{background:#c51927;color:#fff}
 .dreamer-banner .dreamer-doodle{color:currentColor}
 .dreamer-banner .button{background:#171717;color:white}
 .dreamer-banner .button:hover{background:#333}
 @media(max-width:850px){
  .platforms-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .music .track{grid-template-columns:30px minmax(0,1fr);gap:18px;padding:22px 0}
+ .music .track{grid-template-columns:30px minmax(0,1fr);gap:12px;padding:16px 0}
  .track iframe{grid-column:1/-1}
  .track-meta h3{font-size:32px}
  .track-meta small{margin-top:6px}

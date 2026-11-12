@@ -1,5 +1,5 @@
-import { createTrackRow, setupPlatforms } from './music.js?v=20261112-music1';
-import { createStoryRail } from './story-rail.js?v=20261112-walker3';
+import { createTrackRow, setupPlatforms } from './music.js?v=20261112-refine1';
+import { createStoryRail } from './story-rail.js?v=20261112-refine1';
 
 const root = document.documentElement;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');

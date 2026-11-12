@@ -79,3 +79,8 @@ El título permanece en español por decisión expresa del usuario. Los nombres 
 - Apple Music, reproductores insertables: https://artists.apple.com/support/1117-apple-music-marketing-tools.
 - Deezer, generador oficial y formato de URL: https://widget.deezer.com/.
 - TIDAL, generador y documentación oficial: https://embed.tidal.com/ y https://developer.tidal.com/documentation/embeds/embeds-overview.
+
+## Revisión de reproductores y viewport móvil
+
+- Spotify documenta el formato compacto de 80 px, utilizado para las tres muestras: https://developer.spotify.com/documentation/embeds/tutorials/creating-an-embed. Conserva el diseño nativo y su miniportada; no se recortan ni se ocultan controles dentro de los iframes.
+- Se verificó TikTok de forma directa con los reproductores `player/v1` y `embed/v2`: el servicio respondió “Server error” y también HTTP 429. Se mantiene el reproductor actual recomendado, con detección de error, reintento manual y enlace al original. El formato antiguo `embed/v2` está en proceso de retirada según https://developers.tiktok.com/docs/en/embed-videos.

@@ -15,7 +15,7 @@ export function createTrackRow(track, index) {
   const player = document.createElement('iframe');
   player.src = `https://open.spotify.com/embed/track/${track.id}?utm_source=generator&theme=0`;
   player.title = `${track.title} · Spotify`;
-  player.width = '100%'; player.height = '152';
+  player.width = '100%'; player.height = '80';
   player.allow = permissions;
   player.loading = 'lazy';
   player.setAttribute('allowfullscreen', '');

@@ -17,12 +17,16 @@ let viewportWidth=innerWidth, stableBookHeight=innerHeight;
 function syncMobileBookSize(){
   if(innerWidth!==viewportWidth){viewportWidth=innerWidth;stableBookHeight=innerHeight;}
   const mobile=innerWidth<=700&&!staticBook();
-  section.style.height=mobile?`${stableBookHeight*3.6+innerHeight}px`:'';
-  document.documentElement.style.setProperty('--book-viewport-height',`${innerHeight}px`);
+  const visibleHeight=mobile?Math.max(innerHeight,stage.clientHeight):innerHeight;
+  section.style.height=mobile?`${stableBookHeight*3.6+visibleHeight}px`:'';
+  document.documentElement.style.setProperty('--book-viewport-height',`${visibleHeight}px`);
 }
 syncMobileBookSize();
 addEventListener('resize',syncMobileBookSize);
 bookMode.addEventListener('change',syncMobileBookSize);
+window.visualViewport?.addEventListener('resize',()=>{
+  syncMobileBookSize();measureLeaf();queueBook();
+});
 let lastUiKey='';
 const lastBookValues={open:NaN,turn:NaN,exit:NaN};
 function clonePage(source, target) {
@@ -171,7 +175,7 @@ function updateBook() {
     biography.querySelector('.bio-photo-page').style.visibility='visible';
     stage.style.pointerEvents='auto';document.body.classList.remove('book-closed');return;
   }
-  const travel=virtualBookPosition===null?section.offsetHeight-innerHeight:0;
+  const travel=virtualBookPosition===null?section.offsetHeight-stage.clientHeight:0;
   const p=virtualBookPosition??clamp(-section.getBoundingClientRect().top/travel);
   // The sheet follows the actual scroll position. No timed jump can skip the
   // visible turn, and pausing the scroll intentionally pauses the page.
@@ -188,6 +192,7 @@ function updateBook() {
   }
   curveLeaf(turn);
   if(lastBookValues.exit!==exit){
+    stage.style.setProperty('--book-backdrop-opacity',String(1-exit));
     section.style.setProperty('--book-exit',exit);notebook.style.setProperty('--book-exit',exit);
     document.querySelector('.book-bottomline').style.opacity=String(1-exit);
     const previous=document.querySelector('.book-arrow-prev');
@@ -238,12 +243,12 @@ addEventListener('scroll',queueBook,{passive:true});addEventListener('resize',qu
 let navigationFrame=0;
 function cancelBookNavigation(){
   if(navigationFrame){cancelAnimationFrame(navigationFrame);navigationFrame=0;}
-  if(virtualBookPosition!==null){const p=virtualBookPosition;virtualBookPosition=null;window.scrollTo({top:section.getBoundingClientRect().top+scrollY+(section.offsetHeight-innerHeight)*p,behavior:'instant'});updateBook();}
+  if(virtualBookPosition!==null){const p=virtualBookPosition;virtualBookPosition=null;window.scrollTo({top:section.getBoundingClientRect().top+scrollY+(section.offsetHeight-stage.clientHeight)*p,behavior:'instant'});updateBook();}
 }
 function scrollToBook(top){
   cancelBookNavigation();
   const origin=section.getBoundingClientRect().top+scrollY;
-  const travel=section.offsetHeight-innerHeight;
+  const travel=section.offsetHeight-stage.clientHeight;
   const target=clamp((top-origin)/travel);
   let current=clamp((scrollY-origin)/travel);
   const phases=[];
@@ -288,7 +293,7 @@ function goToBook(step) {
   if(target){target.scrollIntoView({behavior:'auto',block:'start'});target.inert=false;}
   else {
     const ratio={cover:0,index:.31,bio:.70,journey:1}[step]||0;
-    const top=section.getBoundingClientRect().top+scrollY+(section.offsetHeight-innerHeight)*ratio;
+    const top=section.getBoundingClientRect().top+scrollY+(section.offsetHeight-stage.clientHeight)*ratio;
     scrollToBook(top);
   }
 }

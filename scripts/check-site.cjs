@@ -11,6 +11,7 @@ const assert = require('node:assert/strict');
  await page.evaluate(()=>document.fonts.ready);
  await page.waitForSelector('.track');
  assert.equal(await page.locator('.track').count(),3);
+ assert.equal(await page.locator('.track iframe').first().evaluate(el=>el.clientHeight),80,'Track previews use the smaller play-focused layout');
  assert.equal(await page.locator('.video-card').count(),3);
  assert.equal(await page.locator('iframe').count(),5,'Album, artist and three track players appear without activation');
  assert.equal(await page.locator('iframe[loading="lazy"]').count(),5,'Spotify frames defer loading until near the section');
@@ -40,6 +41,7 @@ const assert = require('node:assert/strict');
  await page.locator('#credits-open').click();assert(await page.locator('#credits-dialog').isVisible());await page.keyboard.press('Escape');assert(!(await page.locator('#credits-dialog').isVisible()));
  for(const width of [360,390,768,1024]){
   await page.setViewportSize({width,height:844});
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
   await page.waitForFunction(()=>Number(document.querySelector('.notebook').style.getPropertyValue('--book-open'))<.001&&Number(document.querySelector('.notebook').style.getPropertyValue('--book-turn'))<.001);
   const size=await page.evaluate(()=>({w:innerWidth,sw:document.documentElement.scrollWidth}));assert(size.sw<=size.w,`Overflow ${JSON.stringify(size)}`);

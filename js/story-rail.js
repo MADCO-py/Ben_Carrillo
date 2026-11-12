@@ -1,3 +1,4 @@
+import { setupTikTokPlayers } from './tiktok-player.js?v=20261112-refine1';
 import { createStoryWalker } from './story-walker.js?v=20261112-walker3';
 
 // Native vertical scroll drives a pinned horizontal chapter; no wheel interception.
@@ -11,30 +12,7 @@ export function createStoryRail(section, desert, reducedMotion) {
   let start = 0, distance = 0, lead = 0, travel = 0, enabled = false;
   let lastX = -1;
   const clamp = n => Math.max(0, Math.min(1, n));
-  const postMessage = (card, type) => card.querySelector('iframe')?.contentWindow
-    ?.postMessage({ 'x-tiktok-player': true, type }, 'https://www.tiktok.com');
-
-  const observer = new IntersectionObserver(entries => {
-    for (const entry of entries) {
-      const card = entry.target;
-      if (!entry.isIntersecting) { postMessage(card, 'pause'); continue; }
-      if (card.querySelector('iframe')) continue;
-      const frame = document.createElement('iframe');
-      frame.title = `BEN CARRILLO · TikTok ${cards.indexOf(card) + 1}`;
-      frame.src = `https://www.tiktok.com/player/v1/${card.dataset.tiktokId}?autoplay=0&rel=0&description=0&music_info=0`;
-      frame.allow = 'fullscreen; encrypted-media';
-      frame.setAttribute('allowfullscreen', '');
-      frame.addEventListener('load', () => { card.querySelector('.story-player-loading').hidden = true; });
-      card.querySelector('.story-player').append(frame);
-    }
-  }, { threshold: .05 });
-  cards.forEach(card => observer.observe(card));
-
-  addEventListener('message', event => {
-    if (event.origin !== 'https://www.tiktok.com' || !event.data?.['x-tiktok-player']) return;
-    const card = cards.find(item => item.querySelector('iframe')?.contentWindow === event.source);
-    if (card && event.data.type === 'onPlayerError') card.querySelector('.story-player-error').hidden = false;
-  });
+  const tiktoks = setupTikTokPlayers(cards);
 
   function measure() {
     enabled = !reducedMotion.matches && innerHeight > 540;
@@ -48,6 +26,7 @@ export function createStoryRail(section, desert, reducedMotion) {
     section.style.height = enabled ? `${innerHeight + travel}px` : '';
     start = section.getBoundingClientRect().top + scrollY;
     walker.measure();
+    tiktoks.measure();
     lastX = -1;
   }
 

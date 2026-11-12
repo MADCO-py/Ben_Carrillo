@@ -117,7 +117,7 @@ En Firefox se priorizan las caras cacheadas con composición CSS nativa, evitand
 
 `js/story-rail.js` y `css/story-rail.css` fijan este capítulo mientras el scroll vertical recorre el texto y cuatro publicaciones de TikTok. Al llegar al extremo, el documento continúa hacia abajo; al subir, el recorrido se invierte. No se bloquean los eventos de rueda o de pantalla táctil. El fondo de desierto se desplaza lentamente mediante composición CSS.
 
-Los enlaces e identificadores están en `#historia` dentro de `index.html`. El primer post es de fotos. Los reproductores oficiales se crean al entrar las tarjetas en pantalla y se pausan al salir; no cargan al abrir el sitio. Siempre hay un enlace externo y se muestra un aviso si TikTok informa un error. La disponibilidad de las publicaciones depende de TikTok; durante la prueba real el servicio respondió con errores de servidor.
+Los enlaces e identificadores están en `#historia` dentro de `index.html`. El primer post es de fotos. Los reproductores oficiales se crean al entrar las tarjetas en pantalla y se pausan al salir; no cargan al abrir el sitio. Siempre hay un enlace externo y se muestra un aviso si TikTok informa un error. La disponibilidad de las publicaciones depende de TikTok; durante la prueba real el servicio respondió con errores de servidor. `js/tiktok-player.js` comprueba mensajes del reproductor (no solo el evento de carga), conserva un viewport nativo mínimo de 325 px escalado al espacio disponible y ofrece reintentar o abrir el post ante error o falta de respuesta.
 
 Con movimiento reducido o pantallas de menos de 541 px de altura se usa una tira horizontal nativa sin fijar el capítulo. Incluye flechas, navegación con teclado y enlaces accesibles. Los textos nuevos de K’iche’ quedan provisionalmente en español para revisión.
 
@@ -127,7 +127,7 @@ El personaje de `js/story-walker.js` usa las tres hojas PNG originales del usuar
 
 ### Música dentro del sitio
 
-`css/music.css` mantiene 352 píxeles interiores reales para los reproductores de álbum y artista. Un contenedor con borde o con `flex-shrink` podía reducir ese alto y activar el diseño compacto de Spotify, dejando espacio vacío. Los tres temas de la selección tienen reproductores nativos de 152 px, con su botón de reproducción y las muestras que Spotify habilite para el navegador. No se descargan ni se alojan audios.
+`css/music.css` mantiene 352 píxeles interiores reales para los reproductores de álbum y artista. Un contenedor con borde o con `flex-shrink` podía reducir ese alto y activar el diseño compacto de Spotify, dejando espacio vacío. Los tres temas de la selección tienen reproductores nativos compactos de 80 px, con su botón de reproducción y las muestras que Spotify habilite para el navegador. No se descargan ni se alojan audios.
 
 “Todas las plataformas” abre un selector local, alimentado por `content/platforms.json`: Spotify, Apple Music, YouTube/YouTube Music, Deezer y TIDAL se seleccionan en el mismo reproductor del álbum. Amazon Music y Pandora conservan enlaces directos claramente señalados con ↗. Se reemplaza el reproductor anterior al cambiar de plataforma. El perfil del artista permanece visible debajo de DREAMER, ahora rojo.
 
@@ -135,6 +135,6 @@ El personaje de `js/story-walker.js` usa las tres hojas PNG originales del usuar
 
 `css/book-mobile.css` mantiene una página completa dentro del alto visible y reserva el borde inferior para paginación y flechas. La foto de la biografía se revela durante el giro, sin esperar al último fotograma; se evita WebGL en móvil para que no se superponga una foto ampliada al diseño de una sola página. El CTA del pie solo aparece en la portada: índice y biografía conservan sus propios botones.
 
-`js/book.js` separa el alto visible del recorrido de scroll: al plegarse las barras del navegador, el alto del cuaderno cambia y la distancia para pasar páginas se mantiene. Al girar el teléfono o cambiar de ancho se recalcula esa referencia. La biografía usa texto adaptable y permite desplazamiento interior si hace falta para leerla completa en pantallas bajas. El scroll manual conserva el control del giro y puede detenerse a mitad de una hoja.
+`js/book.js` separa el alto visible del recorrido de scroll: al plegarse las barras del navegador, el alto del cuaderno cambia y la distancia para pasar páginas se mantiene. La altura visual sigue `100dvh` desde CSS y se atiende `visualViewport.resize`; un fondo de papel extendido evita destellos del velo claro durante los estados intermedios del navegador y los giros en perspectiva. Al girar el teléfono o cambiar de ancho se recalcula esa referencia. La biografía usa texto adaptable y permite desplazamiento interior si hace falta para leerla completa en pantallas bajas. El scroll manual conserva el control del giro y puede detenerse a mitad de una hoja.
 
 Prueba móvil: `node scripts/check-mobile-book.cjs`, con `BROWSER=firefox` opcional. Comprueba portada completa, foto durante el giro, un único CTA, contenido dentro del margen, cambios de barra del navegador y salida continua al viaje.

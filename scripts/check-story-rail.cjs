@@ -56,11 +56,12 @@ const { chromium, firefox } = require(process.env.PLAYWRIGHT_MODULE || 'playwrig
     const actorX = () => actor.evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m41);
     const moved = () => actor.evaluate(el => new Promise(resolve => {
       let frames = 0, distance = 0;
+      const started = performance.now();
       let previous = new DOMMatrixReadOnly(getComputedStyle(el).transform).m41;
       function sample() {
         const x = new DOMMatrixReadOnly(getComputedStyle(el).transform).m41;
         distance += Math.abs(x - previous); previous = x;
-        if (++frames >= 16) resolve(distance); else requestAnimationFrame(sample);
+        if (++frames >= 16) resolve(distance / ((performance.now() - started) / 1000)); else requestAnimationFrame(sample);
       }
       requestAnimationFrame(sample);
     }));
@@ -97,6 +98,21 @@ const { chromium, firefox } = require(process.env.PLAYWRIGHT_MODULE || 'playwrig
     await page.waitForTimeout(200);
     assert.equal((await read()).x, pausedX, 'Rail must not drift after scrolling stops');
     await page.screenshot({ path: `artifacts/story-rail-${process.env.BROWSER || 'chromium'}-${width}.png` });
+    // An HTTP 200 iframe can still report a TikTok server error. Test recovery
+    // via the same origin- and source-validated messages used by the real player.
+    const recovery = page.locator('.story-post').filter({has:page.locator('iframe')}).first();
+    const signal = type => recovery.evaluate((card,type)=>dispatchEvent(new MessageEvent('message',{
+      origin:'https://www.tiktok.com',source:card.querySelector('iframe').contentWindow,
+      data:{'x-tiktok-player':true,type}
+    })),type);
+    await signal('onPlayerReady');
+    await signal('onPlayerError');
+    assert.equal(await recovery.locator('.tiktok-recovery').evaluate(el=>el.hidden),false);
+    assert.equal(await recovery.locator('iframe').evaluate(el=>el.hidden),true);
+    await recovery.locator('.tiktok-recovery button').evaluate(el=>el.click());
+    assert.equal(await recovery.locator('iframe').evaluate(el=>el.hidden),false);
+    await signal('onPlayerReady');
+    assert.equal(await recovery.locator('.tiktok-recovery').evaluate(el=>el.hidden),true);
     await jump(initial.start + initial.h * .15 + initial.distance);
     const end = await read();
     assert(Math.abs(end.stageY) < 2 && end.last <= width + 2, 'Last post is visible before release');
