@@ -67,7 +67,7 @@ El título permanece en español por decisión expresa del usuario. Los nombres 
 
 ## Publicaciones del camino
 
-- Cuatro enlaces suministrados por el usuario: fotos `7602424549593910542` y videos `7550853818729106701`, `7498185231090896170`, `7707047650616446222` de `@bencarrillo`.
+- Cinco publicaciones de `@bencarrillo`, ordenadas según la última selección del usuario, sin repetir: `7602424549593910542`, `7498185231090896170`, `7554576595160173879`, `7550853818729106701`, `7707047650616446222`.
 - Reproductor oficial para video e imágenes: https://developers.tiktok.com/docs/en/embed-player. Se utiliza `https://www.tiktok.com/player/v1/{id}`, sin reproducción automática. Se atienden los mensajes oficiales `pause` y `onPlayerError`, validando origen y ventana emisora.
 - No se descargan ni se redistribuyen las publicaciones. La prueba real de los reproductores devolvió errores de servidor de TikTok; los enlaces directos siguen disponibles.
 - Personaje caminando, corriendo y sentado tomando agua: tres hojas transparentes de 2172 × 724 px suministradas por el usuario. Copias originales en `assets/images/personaje/`; cada una contiene cuatro cuadros animados desde CSS, aislados por máscaras SVG que respetan los límites reales de cada dibujo. No se generaron ilustraciones nuevas.
@@ -85,3 +85,11 @@ El título permanece en español por decisión expresa del usuario. Los nombres 
 - Spotify documenta el formato compacto de 80 px, utilizado para las tres muestras: https://developer.spotify.com/documentation/embeds/tutorials/creating-an-embed. Conserva el diseño nativo y su miniportada; no se recortan ni se ocultan controles dentro de los iframes.
 - Se verificó TikTok de forma directa con los reproductores `player/v1` y `embed/v2`: el servicio respondió “Server error” y también HTTP 429. Se mantiene el reproductor actual recomendado, con detección de error, reintento manual y enlace al original. El formato antiguo `embed/v2` está en proceso de retirada según https://developers.tiktok.com/docs/en/embed-videos.
 - Se restauró la carga automática de las tarjetas por pedido del usuario. El documento del reproductor se revela al cargar, sin exigir `onPlayerReady`, para no ocultar portadas nativas que no envían ese mensaje. Una respuesta HTTP 429 sigue siendo una limitación del servicio; no se fabrican ni se sustituyen las portadas originales.
+
+## Actualización de identidad y archivo personal
+
+- Firma, bus “Ben Carrillo Tour Bus”, bolsa “Thank you, hay reciclas cerote/a” y logo BC: archivos suministrados por el usuario en esta conversación. Se conservan las imágenes originales; los recortes visuales de los stickers se realizan desde CSS. El favicon es una exportación pequeña del monograma del logo recibido.
+- Fotos de infancia: `KID PIC OG.png`, `IMG_2261.jpeg`, `ae7422b4-86da-4500-889f-c51e383b2438.jpg` y `34fb02d4-6919-4595-b91d-eef7b7f316b8.jpg`, suministradas por el usuario.
+- Fotos actuales: “Ben spotify - Photo by Jose Misa-35.jpg”, “Ben (Lfor spotify) - Photo by Jose Misa-36.jpg” y “Ben - Nov 2026 (HighQuality) - Photo by Jose Misa-10.jpg”. Crédito Jose Misa según los nombres de los archivos proporcionados. La segunda copia de la foto 36 representa la misma toma y no se repite en la galería.
+- Biografía y sus hitos (Thalía, Bad Bunny, COLORS, DREAMER/Rolling Stone y reproducciones de “Centroamérica”): texto nuevo suministrado por el usuario. Se redactó su versión española, sin inventar un enlace de prensa ni presentar las cifras como una verificación independiente.
+- Validación telefónica local: libphonenumber-js 1.13.16, MIT. Fuente y documentación primaria: https://github.com/catamphetamine/libphonenumber-js. La biblioteca y su licencia están en `js/vendor/`; no se transmiten números a servicios de validación.

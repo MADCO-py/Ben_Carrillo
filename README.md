@@ -115,7 +115,7 @@ En Firefox se priorizan las caras cacheadas con composición CSS nativa, evitand
 
 ### El sueño no se suelta · recorrido horizontal
 
-`js/story-rail.js` y `css/story-rail.css` fijan este capítulo mientras el scroll vertical recorre el texto y cuatro publicaciones de TikTok. Al llegar al extremo, el documento continúa hacia abajo; al subir, el recorrido se invierte. No se bloquean los eventos de rueda o de pantalla táctil. El fondo de desierto se desplaza lentamente mediante composición CSS.
+`js/story-rail.js` y `css/story-rail.css` fijan este capítulo mientras el scroll vertical recorre el texto y cinco publicaciones de TikTok. Al llegar al extremo, el documento continúa hacia abajo; al subir, el recorrido se invierte. No se bloquean los eventos de rueda o de pantalla táctil. El fondo de desierto se desplaza lentamente mediante composición CSS.
 
 Los enlaces e identificadores están en `#historia` dentro de `index.html`. El primer post es de fotos. Los reproductores oficiales se crean automáticamente al entrar las tarjetas en pantalla y se pausan al salir; conservan sus portadas y controles nativos, sin un botón intermedio. Siempre hay un enlace externo y se muestra un aviso si TikTok informa un error. La disponibilidad de las publicaciones depende de TikTok; durante la prueba real el servicio respondió con errores de servidor. `js/tiktok-player.js` comprueba mensajes del reproductor (no solo el evento de carga), conserva un viewport nativo mínimo de 325 px escalado al espacio disponible y ofrece reintentar o abrir el post ante error o falta de respuesta. El estado de carga se retira cuando termina de cargar el documento nativo; no se espera obligatoriamente `onPlayerReady`, ya que algunos reproductores muestran la portada sin emitirlo. Se mantienen los avisos ante errores notificados por TikTok, fallos de red o carga que no termina. No se hacen reintentos automáticos. Si el servicio responde con HTTP 429, no puede garantizarse una portada nativa.
 
@@ -138,3 +138,17 @@ El personaje de `js/story-walker.js` usa las tres hojas PNG originales del usuar
 `js/book.js` separa el alto visible del recorrido de scroll: al plegarse las barras del navegador, el alto del cuaderno cambia y la distancia para pasar páginas se mantiene. La altura visual sigue `100dvh` desde CSS y se atiende `visualViewport.resize`; un fondo de papel extendido evita destellos del velo claro durante los estados intermedios del navegador y los giros en perspectiva. Al girar el teléfono o cambiar de ancho se recalcula esa referencia. La biografía usa texto adaptable y permite desplazamiento interior si hace falta para leerla completa en pantallas bajas. El scroll manual conserva el control del giro y puede detenerse a mitad de una hoja.
 
 Prueba móvil: `node scripts/check-mobile-book.cjs`, con `BROWSER=firefox` opcional. Comprueba portada completa, foto durante el giro, un único CTA, contenido dentro del margen, cambios de barra del navegador y salida continua al viaje.
+
+### Identidad, archivo y formulario internacional
+
+La web abre en inglés en una visita nueva; español ocupa el segundo lugar y K’iche’ sigue como borrador con aviso. La nueva preferencia se guarda en `ben-language-v2`, para que el español que antes se guardaba por defecto no impida el nuevo inicio en inglés. Una elección posterior del visitante se conserva. El HTML inicial ya contiene la versión inglesa.
+
+El cuaderno usa la firma suministrada, conserva el quetzal y reemplaza los otros stickers por el bus de Ben y la bolsa de Carrillo Merch. La biografía EN/ES procede del texto nuevo del usuario; la versión nueva de K’iche’ usa por ahora ese texto en español hasta revisión. “¿QUIÉN PUTAS ES BEN CARRILLO?”, Ahuevix, Maltiox, mis baddiez!! y simón! permanecen iguales en ambos idiomas.
+
+Las fotos originales están en `assets/images/artista/originales/` y las copias WebP de carga ligera, en la carpeta superior. La firma y el logo se guardan en `assets/images/marca/`; el favicon usa una exportación legible del monograma BC suministrado. Las fotos adultas de Jose Misa conservan su crédito. Los nombres descriptivos de las fotos de infancia no agregan identidades ni relaciones de las otras personas retratadas.
+
+Hay cinco TikToks sin duplicados, en este orden: `7602424549593910542`, `7498185231090896170`, `7554576595160173879`, `7550853818729106701`, `7707047650616446222`.
+
+El correo sigue siendo obligatorio y el teléfono es opcional. `js/phone-field.js` ofrece países y códigos internacionales, acepta números nacionales o con prefijo +, valida y normaliza a E.164 mediante libphonenumber-js 1.13.16 (MIT), guardado en `js/vendor/`. No se consultan servicios externos con los números. El formulario sigue siendo una demostración: no guarda ni envía correos ni teléfonos.
+
+Pruebas de esta entrega: `node scripts/check-artist-refresh.cjs`, `node scripts/check-mobile-book.cjs` y `node scripts/check-tiktok-preview.cjs` (admiten `BROWSER=firefox`).

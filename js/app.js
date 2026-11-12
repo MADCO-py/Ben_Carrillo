@@ -11,7 +11,7 @@ const journeyFill=document.querySelector('.journey-meter i');
 const story = document.querySelector('#historia');
 const storyRail = createStoryRail(story, desertLayer, reducedMotion);
 const outro = document.querySelector('#redes');
-let positions = {}, scheduled = false, messages = {}, language = 'es';
+let positions = {}, scheduled = false, messages = {}, language = 'en';
 const clamp = (n) => Math.max(0, Math.min(1, n));
 const smooth = (n) => { const x = clamp(n); return x * x * (3 - 2 * x); };
 function measure() {
@@ -70,12 +70,19 @@ async function setLanguage(next) {
     const nextMessages = await response.json();
     if (requestId !== localeRequest) return;
     messages = nextMessages; language = next;
-    document.dispatchEvent(new CustomEvent('ben-language', { detail: { language: next, messages: nextMessages } }));
     root.lang = next;
+    globalThis.benLocale = {language:next,messages:nextMessages};
+    document.dispatchEvent(new CustomEvent('ben-language', { detail: { language: next, messages: nextMessages } }));
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const value = messages[el.dataset.i18n];
       if (!value) return;
       el.replaceChildren(...value.split('\n').flatMap((part, i) => i ? [document.createElement('br'), document.createTextNode(part)] : [document.createTextNode(part)]));
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el=>{
+      const value=messages[el.dataset.i18nAria];if(value)el.setAttribute('aria-label',value);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+      const value=messages[el.dataset.i18nPlaceholder];if(value)el.setAttribute('placeholder',value);
     });
     document.querySelectorAll('[data-lang]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.lang === next)));
     document.querySelector('#translation-notice').hidden = next !== 'quc';
@@ -84,14 +91,14 @@ async function setLanguage(next) {
     menuButton.setAttribute('aria-label', t('menu'));
     document.querySelector('.dialog-close').setAttribute('aria-label', t('close'));
     document.querySelectorAll('[data-track]').forEach((link) => { link.setAttribute('aria-label', `${t('listen')}: ${link.dataset.track} · Spotify`); });
-    try { localStorage.setItem('ben-language', next); } catch {}
+    try { localStorage.setItem('ben-language-v2', next); } catch {}
     measure();
   } catch (error) { console.error(error); }
 }
 document.querySelectorAll('[data-lang]').forEach((button) => button.addEventListener('click', () => setLanguage(button.dataset.lang)));
-let savedLanguage = 'es';
-try { savedLanguage = localStorage.getItem('ben-language') || 'es'; } catch {}
-setLanguage(['es','en','quc'].includes(savedLanguage) ? savedLanguage : 'es');
+let savedLanguage = 'en';
+try { savedLanguage = localStorage.getItem('ben-language-v2') || 'en'; } catch {}
+setLanguage(['en','es','quc'].includes(savedLanguage) ? savedLanguage : 'en');
 setupPlatforms();
 async function loadContent() {
   try {

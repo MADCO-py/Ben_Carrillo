@@ -15,8 +15,8 @@ const {chromium,firefox}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
  assert.equal(requests,0,'Do not fetch distant TikToks while viewing the book');
  assert.equal(await page.locator('.tiktok-activate').count(),0,'No intermediate activation button');
  const ids=await page.locator('.story-post').evaluateAll(cards=>cards.map(card=>card.dataset.tiktokId));
- assert.deepEqual(ids,['7602424549593910542','7550853818729106701','7498185231090896170','7707047650616446222']);
- for(let i=0;i<4;i++){
+ assert.deepEqual(ids,['7602424549593910542','7498185231090896170','7554576595160173879','7550853818729106701','7707047650616446222']);
+ for(let i=0;i<5;i++){
   await page.evaluate(i=>{
    const section=document.querySelector('#historia'),viewport=section.querySelector('.story-window'),track=section.querySelector('.story-track');
    const card=section.querySelectorAll('.story-post')[i];
@@ -30,7 +30,7 @@ const {chromium,firefox}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
   },i);
   assert.equal(await card.locator('iframe').evaluate(el=>getComputedStyle(el).opacity),'1');
  }
- assert.equal(requests,4,'Each post loads once in the original sequence');
+ assert.equal(requests,5,'Each post loads once in the original sequence');
  const card=page.locator('.story-post').last();
  const handle=await card.locator('iframe').elementHandle();
  const nativeFrame=await handle.contentFrame();
@@ -39,7 +39,7 @@ const {chromium,firefox}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
  await card.locator('.tiktok-recovery').waitFor({state:'visible'});
  await card.locator('.tiktok-recovery button').click();
  await page.waitForFunction(()=>!document.querySelector('.story-post:last-child iframe').classList.contains('tiktok-pending'));
- assert.equal(requests,5,'Manual retry restores the native preview');
+ assert.equal(requests,6,'Manual retry restores the native preview');
  assert.deepEqual(errors,[]);
  await browser.close();console.log('PASS: automatic native TikTok previews, requested order, no extra click, no ready-message deadlock, manual recovery');
 })().catch(error=>{console.error(error);process.exit(1)});

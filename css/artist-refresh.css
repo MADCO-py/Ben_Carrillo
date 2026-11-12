@@ -1,0 +1,52 @@
+/* Original supplied artwork, displayed as physical marks on the notebook. */
+.sticker-bus-ben{width:76%;right:3%;bottom:17%;transform:rotate(-8deg);clip-path:polygon(12% 52%,18% 44%,19% 24%,30% 13%,65% 10%,78% 17%,88% 28%,89% 71%,84% 83%,26% 91%,13% 83%)}
+.sticker-bolsa-ben{width:25%;left:9%;top:40%;transform:rotate(9deg);clip-path:polygon(3% 11%,19% 6%,27% 29%,70% 28%,79% 8%,96% 9%,99% 30%,96% 88%,89% 98%,12% 98%,4% 78%)}
+.cover-face .sticker-quetzal{width:20%;right:12%;top:28%}
+.ben-phrases{font-size:25px;line-height:1.2;transform:rotate(-3deg);margin-top:25px;color:#944233}
+.book-signature{display:flex;align-items:center;gap:18px;margin:16px 0 5px}
+.book-signature img{width:min(250px,65%);height:auto;mix-blend-mode:multiply}
+.book-signature span{font-size:24px;transform:rotate(-6deg);color:#944233}
+.book-journey[data-page="index"] .open-book,.book-journey[data-page="bio"] .open-book{display:none}
+.mailing-scribble{text-transform:none}
+.bio-text-page{overflow-y:auto;scrollbar-width:thin}
+.bio-photo-page .book-polaroid-current{width:52%;margin:30px 5% 0 auto;transform:rotate(5deg)}
+.bio-photo-page .book-polaroid img{filter:none}
+.bio-photo-page .book-polaroid-child{position:absolute;width:35%;left:7%;right:auto;top:auto;bottom:14%;margin:0;transform:rotate(-8deg)}
+.bio-photo-page .photo-scribble{position:absolute;right:6%;bottom:9%;max-width:40%;line-height:1.15}
+.photo-main img{filter:none!important;object-position:50% 30%}
+.photo-archive{margin-top:75px}
+.photo-archive h3{font-size:38px;letter-spacing:.015em;margin-bottom:28px}
+.photo-archive-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px 24px}
+.photo-archive-grid img{aspect-ratio:4/5;object-fit:cover;object-position:center 35%}
+.photo-archive-grid figure:nth-child(2) img,.photo-archive-grid figure:nth-child(3) img{object-position:center}
+.photo-archive-grid figcaption{font-size:9px;letter-spacing:.1em;margin-top:12px;color:#496080}
+.phone-field{display:grid;gap:10px;margin-bottom:24px}
+.phone-field label{font-size:10px;letter-spacing:.1em}
+.phone-field select,.phone-field input{display:block;width:100%;min-width:0;min-height:46px;padding:12px;border:1px solid #b7c6dc;border-radius:0;background:#fff;color:#0c2142;font:14px 'DM Sans',Arial,sans-serif}
+.phone-field label[for="phone"]{margin-top:8px}
+.phone-field #phone-help{font-size:11px;line-height:1.5;color:#526680;margin:0}
+@media(max-width:700px){
+ .sticker-bus-ben{width:94%;right:-2%;bottom:22%;transform:rotate(-7deg)}
+ .sticker-bolsa-ben{width:34%;left:8%;top:34%;transform:rotate(8deg)}
+ .cover-face .sticker-quetzal{width:24%;right:11%;top:31%}
+ .ben-phrases{font-size:18px;margin-top:18px}
+ .book-signature{margin:13px 0 5px;gap:12px}
+ .book-signature img{width:62%}
+ .book-signature span{font-size:20px}
+ .bio-photo-page .book-polaroid-current{position:relative;width:100%;max-width:145px;margin:0;left:auto;right:auto;bottom:auto;top:auto;transform:rotate(5deg)}
+ .bio-photo-page .book-polaroid-child{position:absolute;grid-column:1/-1;grid-row:1/-1;left:52%;bottom:8px;top:auto;right:auto;width:22%;max-width:82px;padding:4px 4px 6px;transform:rotate(-9deg);z-index:2}
+ .bio-photo-page .book-polaroid-child figcaption{font-size:7px;line-height:1}
+ .bio-photo-page .photo-scribble{position:static;max-width:100%;width:auto;line-height:1.05}
+ .bio-photo-page h1{font-size:clamp(21px,6.1vw,27px)!important}
+ .index-links .chapter-grid{gap:28px 14px;margin-top:24px}
+ .index-links .margin-note{margin-top:17px;font-size:22px}
+ .index-links .book-next{margin-top:15px}
+ .photo-archive{margin-top:45px}
+ .photo-archive h3{font-size:28px}
+ .photo-archive-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 16px}
+ .photo-archive-grid figcaption{font-size:8px;line-height:1.5}
+}
+@media(prefers-reduced-motion:reduce),(max-height:540px){
+ .bio-photo-page .book-polaroid-child{position:relative;left:auto;bottom:auto;width:38%;margin:25px 8% 25px}
+ .bio-photo-page .photo-scribble{position:static;max-width:70%}
+}

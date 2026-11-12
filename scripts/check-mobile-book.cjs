@@ -31,11 +31,11 @@ const {chromium, firefox} = require(process.env.PLAYWRIGHT_MODULE || 'playwright
   assert.equal(await page.locator('.bio-photo-page').first().evaluate(el=>getComputedStyle(el).visibility),'visible','Photo is present while the mobile sheet reveals the biography');
   assert(!(await page.locator('.turning-page').getAttribute('class')).includes('gpu-page'),'Mobile uses native sheet composition');
   await move(.70);
-  assert(await page.locator('#biografia .book-polaroid').isVisible());
+  assert(await page.locator('#biografia .book-polaroid-current').isVisible());
   assert(!(await page.locator('.open-book').isVisible()),'Do not repeat the journey CTA');
   const footer=await page.locator('.book-bottomline').boundingBox();
   assert(footer.y>=0&&footer.y+footer.height<=height+1,'Footer fits the visible screen');
-  const photo=await page.locator('#biografia .book-polaroid').boundingBox();
+  const photo=await page.locator('#biografia .book-polaroid-current').boundingBox();
   assert(photo.x>=0&&photo.x+photo.width<=width,'Photo stays inside the page');
   const pageBox=await page.locator('#biografia .bio-text-page').boundingBox();
   assert(pageBox.y+pageBox.height<=footer.y+3,'Biography does not overlap the footer');

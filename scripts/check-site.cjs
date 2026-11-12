@@ -40,8 +40,18 @@ const assert = require('node:assert/strict');
  const veil=await page.evaluate(()=>Number(getComputedStyle(document.documentElement).getPropertyValue('--veil-opacity')));assert(veil>.99,'White must return on scroll up');
  await page.locator('#credits-open').click();assert(await page.locator('#credits-dialog').isVisible());await page.keyboard.press('Escape');assert(!(await page.locator('#credits-dialog').isVisible()));
  for(const width of [360,390,768,1024]){
+  await page.evaluate(()=>document.activeElement?.blur());
   await page.setViewportSize({width,height:844});
-  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  // Let resize anchoring settle before issuing the explicit return to the cover.
+  await page.waitForTimeout(200);
+  await page.evaluate(()=>{
+   dispatchEvent(new WheelEvent('wheel',{deltaY:0}));
+   document.querySelector('#inicio').getBoundingClientRect();
+   window.scrollTo({top:0,behavior:'instant'});
+  });
+  // Changing the responsive page layout can apply one final native scroll
+  // anchor adjustment. Establish the exact starting position after it settles.
+  await page.waitForTimeout(150);
   await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
   await page.waitForFunction(()=>Number(document.querySelector('.notebook').style.getPropertyValue('--book-open'))<.001&&Number(document.querySelector('.notebook').style.getPropertyValue('--book-turn'))<.001);
   const size=await page.evaluate(()=>({w:innerWidth,sw:document.documentElement.scrollWidth}));assert(size.sw<=size.w,`Overflow ${JSON.stringify(size)}`);
@@ -57,7 +67,7 @@ const assert = require('node:assert/strict');
   await page.waitForFunction(selector=>!document.querySelector(selector).inert,selector);
   assert.equal(await page.locator(selector).evaluate(el=>el.inert),false);
  }
- assert.equal(await page.locator('.cover-sticker img').count(),5);
+ assert.equal(await page.locator('.cover-sticker img').count(),3);
  assert.equal(await page.locator('.tour-row').count(),3);
  assert.equal(await page.locator('.product-card').count(),12);
  await page.locator('[data-merch-filter="objects"]').click();
@@ -99,6 +109,6 @@ const assert = require('node:assert/strict');
  await page.locator('[data-provider="Spotify"]').click();
  assert.equal(await page.locator('#album iframe').count(),1);
  assert.deepEqual(errors,[]);
- console.log('PASS: notebook, 5 stickers, tour, merch filters/dialog, demo mailing, deliberate restart, desktop, 360/390/768/1024px, ES/EN/K’iche’, reverse scroll, menu, credits, reduced motion, deferred players, images, no JS errors.');
+ console.log('PASS: notebook, 3 stickers, tour, merch filters/dialog, demo mailing, deliberate restart, desktop, 360/390/768/1024px, ES/EN/K’iche’, reverse scroll, menu, credits, reduced motion, deferred players, images, no JS errors.');
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

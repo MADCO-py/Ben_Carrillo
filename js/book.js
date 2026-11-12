@@ -1,4 +1,5 @@
 import {createPageRenderer} from './page-renderer.js?v=20261111-firefox4';
+import {setupPhoneField} from './phone-field.js?v=20261112-brand2';
 const section = document.querySelector('.book-journey');
 const notebook = document.querySelector('.notebook');
 const stage = document.querySelector('.book-stage');
@@ -11,7 +12,8 @@ const staticBook = () => bookMode.matches;
 const clamp = n => Math.max(0, Math.min(1, n));
 const ease = n => { const x=clamp(n);return x*x*(3-2*x); };
 let raf = false;
-let language='es', copy={};
+let language=globalThis.benLocale?.language||document.documentElement.lang||'en';
+let copy=globalThis.benLocale?.messages||{};
 let virtualBookPosition=null;
 let viewportWidth=innerWidth, stableBookHeight=innerHeight;
 function syncMobileBookSize(){
@@ -348,8 +350,10 @@ async function renderMerch(){
 }
 Promise.all([renderTour(),renderMerch()]).catch(error=>console.error(error));
 const form=document.querySelector('#mailing-form');
+const phoneField=setupPhoneField(form,text);
 form.addEventListener('submit',e=>{
  e.preventDefault();
+ phoneField.validate();
  if(!form.reportValidity())return;
  const status=document.querySelector('#mail-status');status.hidden=false;status.textContent=text('mailDemoResult','Esta es una vista previa: tu correo no se guardó ni se envió. Conectaremos la lista antes del lanzamiento.');
  form.reset();

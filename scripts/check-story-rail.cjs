@@ -36,7 +36,7 @@ const { chromium, firefox } = require(process.env.PLAYWRIGHT_MODULE || 'playwrig
     await page.goto(process.env.SITE_URL || 'http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
     await page.waitForSelector('.track');
-    assert.equal(await page.locator('.story-post').count(), 4);
+    assert.equal(await page.locator('.story-post').count(), 5);
     assert.equal(await page.locator('.story-post iframe').count(), 0, 'Players must not load at entry');
     const initial = await read();
     assert(initial.distance > 500);
