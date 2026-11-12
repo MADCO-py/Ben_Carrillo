@@ -67,7 +67,7 @@ El título permanece en español por decisión expresa del usuario. Los nombres 
 
 ## Publicaciones del camino
 
-- Cuatro enlaces suministrados por el usuario: fotos `7602424549593910542` y videos `7550853818729106701`, `7498185231090896170`, `7705237863352388877` de `@bencarrillo`.
+- Cuatro enlaces suministrados por el usuario: fotos `7602424549593910542` y videos `7550853818729106701`, `7498185231090896170`, `7707047650616446222` de `@bencarrillo`.
 - Reproductor oficial para video e imágenes: https://developers.tiktok.com/docs/en/embed-player. Se utiliza `https://www.tiktok.com/player/v1/{id}`, sin reproducción automática. Se atienden los mensajes oficiales `pause` y `onPlayerError`, validando origen y ventana emisora.
 - No se descargan ni se redistribuyen las publicaciones. La prueba real de los reproductores devolvió errores de servidor de TikTok; los enlaces directos siguen disponibles.
 - Personaje caminando, corriendo y sentado tomando agua: tres hojas transparentes de 2172 × 724 px suministradas por el usuario. Copias originales en `assets/images/personaje/`; cada una contiene cuatro cuadros animados desde CSS, aislados por máscaras SVG que respetan los límites reales de cada dibujo. No se generaron ilustraciones nuevas.
