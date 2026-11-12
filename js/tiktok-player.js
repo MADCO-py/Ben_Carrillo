@@ -25,6 +25,7 @@ export function setupTikTokPlayers(cards) {
     link.target = '_blank'; link.rel = 'noopener'; link.dataset.i18n = 'openTiktok'; link.textContent = card.querySelector('.story-post-link span').textContent;
     overlay.append(title, message, retry, link);
     const frame = document.createElement('iframe');
+    frame.className = 'tiktok-pending';
     frame.title = `BEN CARRILLO · TikTok ${cards.indexOf(card) + 1}`;
     frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share';
     frame.setAttribute('allowfullscreen', '');
@@ -32,17 +33,21 @@ export function setupTikTokPlayers(cards) {
     const player = { frame, overlay, loading, timer: 0 };
     const fail = () => {
       clearTimeout(player.timer);
+      player.failed = true;
       frame.hidden = true; loading.hidden = true; overlay.hidden = false;
     };
     player.fail = fail;
     function start() {
       clearTimeout(player.timer);
+      cards.forEach(other => { if (other !== card) pause(other); });
+      player.failed = false;
+      frame.classList.add('tiktok-pending');
       overlay.hidden = true; loading.hidden = false; frame.hidden = false;
       frame.src = `https://www.tiktok.com/player/v1/${card.dataset.tiktokId}?autoplay=0&rel=0&description=0&music_info=0`;
-      player.timer = setTimeout(fail, 20000);
+      player.timer = setTimeout(fail, 15000);
     }
     frame.addEventListener('error', fail);
-    frame.addEventListener('load', () => { loading.hidden = true; });
+    // HTTP 429 pages also fire load. Reveal only after TikTok's ready message.
     retry.addEventListener('click', start);
     shell.append(frame, overlay);
     players.set(card, player);
@@ -50,19 +55,31 @@ export function setupTikTokPlayers(cards) {
   }
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {
-      if (entry.isIntersecting) load(entry.target);
-      else pause(entry.target);
+      if (!entry.isIntersecting) pause(entry.target);
     }
   }, { threshold: .05 });
-  cards.forEach(card => observer.observe(card));
+  cards.forEach(card => {
+    const shell = card.querySelector('.story-player');
+    card.querySelector('.story-player-loading').hidden = true;
+    const activate = document.createElement('button');
+    activate.type = 'button'; activate.className = 'tiktok-activate';
+    const play = document.createElement('span'); play.className = 'tiktok-play-icon';
+    play.setAttribute('aria-hidden', 'true'); play.textContent = '▶';
+    const label = document.createElement('span'); label.dataset.i18n = 'tiktokActivate';
+    label.textContent = document.documentElement.lang === 'en' ? 'Load TikTok' : 'Ver TikTok';
+    activate.append(play, label);
+    activate.addEventListener('click', () => { activate.hidden = true; load(card); });
+    shell.append(activate); observer.observe(card);
+  });
   addEventListener('message', event => {
     if (event.origin !== 'https://www.tiktok.com' || !event.data?.['x-tiktok-player']) return;
     const player = [...players.values()].find(player => player.frame.contentWindow === event.source);
     if (!player) return;
     if (event.data.type === 'onPlayerError' || event.data.type === 'onError') player.fail();
-    if (event.data.type === 'onPlayerReady') {
+    if (event.data.type === 'onPlayerReady' && !player.failed) {
       clearTimeout(player.timer); player.overlay.hidden = true;
       player.loading.hidden = true; player.frame.hidden = false;
+      player.frame.classList.remove('tiktok-pending');
     }
   });
   return { measure: () => cards.forEach(measure) };

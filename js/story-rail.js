@@ -1,4 +1,4 @@
-import { setupTikTokPlayers } from './tiktok-player.js?v=20261112-refine1';
+import { setupTikTokPlayers } from './tiktok-player.js?v=20261112-tiktok2';
 import { createStoryWalker } from './story-walker.js?v=20261112-walker3';
 
 // Native vertical scroll drives a pinned horizontal chapter; no wheel interception.

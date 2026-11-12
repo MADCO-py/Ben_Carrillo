@@ -100,6 +100,8 @@ const { chromium, firefox } = require(process.env.PLAYWRIGHT_MODULE || 'playwrig
     await page.screenshot({ path: `artifacts/story-rail-${process.env.BROWSER || 'chromium'}-${width}.png` });
     // An HTTP 200 iframe can still report a TikTok server error. Test recovery
     // via the same origin- and source-validated messages used by the real player.
+    assert.equal(await page.locator('.story-post iframe').count(),0,'Scrolling the rail must not make TikTok requests');
+    await page.locator('.tiktok-activate').first().evaluate(el=>el.click());
     const recovery = page.locator('.story-post').filter({has:page.locator('iframe')}).first();
     const signal = type => recovery.evaluate((card,type)=>dispatchEvent(new MessageEvent('message',{
       origin:'https://www.tiktok.com',source:card.querySelector('iframe').contentWindow,
