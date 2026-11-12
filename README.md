@@ -68,3 +68,27 @@ La comprobación verifica anchos de 360, 390, 768, 1024 y 1440 píxeles, idiomas
 - Confirmar autoría/créditos del retrato y la foto de playa facilitados por el usuario.
 - Sustituir o ampliar fotografías cuando exista una selección autorizada. La sección fotográfica usa el único retrato aprobado; no inventa una galería.
 - Añadir contacto profesional cuando se facilite; no se muestra un correo ficticio.
+
+## Nueva entrada: el cuaderno
+
+`css/book.css` y `js/book.js` controlan el cuaderno café. El libro ocupa toda la pantalla inicial. El scroll gira una cubierta con anverso y reverso, mantiene el índice, gira una hoja de dos caras para mostrar la biografía y retira el libro abierto hacia arriba para revelar el viaje y continuar con scroll normal. Los botones del índice llevan a los capítulos. Con movimiento reducido o ventanas de poca altura, se muestran páginas legibles en flujo normal, sin giros 3D ni bloqueo del contenido.
+
+- `assets/images/stickers/`: los cinco stickers proporcionados por el usuario, conservados tal cual. Tamaño, superposición, recorte visual y rotación se ajustan con `.sticker-*` en `css/book.css`.
+- `css/schoolbell.css`: **Schoolbell**, solicitada por el usuario, guardada localmente con licencia Apache 2.0. `css/art-direction.css` aplica papel rayado, marcas, manchas y el cambio a la estética azul y blanca de Los Ángeles. Caveat se conserva como recurso anterior, sin ser la fuente activa del libro.
+- `content/tour.json`: fechas **ficticias de demostración**, señaladas en la interfaz. No hay venta de entradas.
+- `content/merch.json`: productos y precios **conceptuales**, editables. Ilustraciones SVG originales en `assets/images/merch/`. No hay carrito ni cobros conectados.
+- Mailing list: formulario demostrativo con validación y consentimiento. **No envía ni guarda correos**, ni afirma una suscripción exitosa. Requiere conectar un proveedor antes de usarlo públicamente.
+- Coming soon: espacio editorial sin anuncio inventado.
+- Final: llegar al fondo no reinicia. Se necesita insistir bajando con rueda, varios gestos táctiles o teclado; también existe un botón directo. Al reiniciar, se vuelve a la cubierta.
+
+La biografía aprobada se trasladó completa al cuaderno. Prensa, fotos y redes siguen disponibles en el viaje. Las cifras y fechas demo deben sustituirse antes de anunciar productos o conciertos reales.
+
+La hoja usa dieciséis segmentos con anverso y reverso: la curvatura crece durante el giro y desaparece al asentarse, donde se dibuja una cara completa para evitar costuras. Las texturas vectoriales están en `assets/textures/`. La colección de merch contiene doce productos conceptuales y mantiene fondo blanco, prendas negras y etiquetas pequeñas.
+
+## Pasar páginas con esfuerzo y final completo
+
+La cubierta, el paso a la biografía y la salida del libro tienen umbrales de scroll. Un recorrido pequeño mantiene la página actual; al superar el umbral, una animación temporal termina el giro aunque se deje de mover la rueda o el dedo. La vuelta usa un umbral distinto para evitar cambios repetidos por pequeñas oscilaciones. Los botones del índice conservan el acceso directo.
+
+`js/book.js` define las duraciones y umbrales. `scripts/check-book-snap.cjs` verifica el comportamiento en escritorio y móvil, incluida la pausa a mitad del recorrido de scroll, los gestos cortos y la vuelta. Ejecutarlo con Node y Playwright, con el servidor local activo.
+
+Se reemplazaron los asteriscos naranjas del índice y del bloque DREAMER por garabatos originales en trazo grafito.

@@ -1,0 +1,20 @@
+{
+  "demo": true,
+  "shows": [
+    {
+      "date": "2027-03-12",
+      "city": "Guatemala, GT",
+      "venue": "Escenario por anunciar"
+    },
+    {
+      "date": "2027-04-09",
+      "city": "Los Ángeles, US",
+      "venue": "Escenario por anunciar"
+    },
+    {
+      "date": "2027-05-21",
+      "city": "Ciudad de México, MX",
+      "venue": "Escenario por anunciar"
+    }
+  ]
+}

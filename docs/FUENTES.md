@@ -44,3 +44,18 @@ Referencias consultadas:
 - Atlas Lingüístico Sonoro del Idioma K’iche’, ALMG: https://aliski.aldelim.org/ — variación dialectal, pendiente de elegir variante con el revisor.
 
 El título permanece en español por decisión expresa del usuario. Los nombres de álbumes, canciones, plataformas y lugares conservan su grafía propia.
+
+## Actualización: cuaderno y nuevas secciones
+
+- Cinco stickers aportados expresamente por el usuario para la cubierta: Tikal, Antigua Guatemala, sello Made in Guatemala, quetzal y camioneta. Se conservan los PNG originales en `assets/images/stickers/`. La posición y recorte visual se hacen con CSS; no se modificaron los archivos.
+- Referencias del usuario: cuaderno físico con stickers y boceto de índice dibujado. Se interpretan como dirección visual, no como instrucciones externas.
+- Referencia de merch: https://yeezy.com/ — fondo blanco, imágenes aisladas, cuadrícula, códigos cortos y tipografía pequeña. No se copiaron fotografías de producto, marca ni código del sitio.
+- Productos SVG: ilustraciones conceptuales originales creadas para esta maqueta. Precios y fechas de tour ficticios autorizados para reservar espacios, señalados explícitamente como demostración.
+- Fuente manuscrita provisional: Caveat (Google Fonts), SIL Open Font License, licencia local `assets/fonts/caveat-OFL.txt`. MAYA MIA queda pendiente de archivo y licencia; no se presenta Caveat como si fuera esa fuente.
+
+## Schoolbell, desgaste y dirección Los Ángeles
+
+- Schoolbell, disponible en https://fonts.google.com/specimen/Schoolbell. Descargada de Google Fonts; licencia Apache 2.0 conservada en `assets/fonts/schoolbell-LICENSE.txt`. Sustituye a Caveat como fuente activa del libro.
+- Papel rayado, marcas de lápiz, manchas de café y desgaste: SVG originales creados para este sitio, en `assets/textures/`.
+- La identidad transita de la libreta cálida hacia composiciones de Los Ángeles con DM Sans, azul, blanco y bordes rectos.
+- Merch mantiene ilustraciones conceptuales propias: no son fotografías de productos disponibles ni productos oficiales Yeezy. Se amplió a doce conceptos para mostrar la cuadrícula de dos filas de seis en escritorio.

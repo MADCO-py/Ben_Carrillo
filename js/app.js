@@ -1,6 +1,6 @@
 const root = document.documentElement;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const hero = document.querySelector('.hero');
+const hero = document.querySelector('#inicio');
 const story = document.querySelector('#historia');
 const outro = document.querySelector('#redes');
 let positions = {}, scheduled = false, messages = {}, language = 'es';
@@ -20,12 +20,15 @@ function measure() {
 function updateWorld() {
   scheduled = false;
   const y = window.scrollY, h = innerHeight;
-  const reveal = smooth((y - positions.hero * .12) / (positions.hero * .85));
+  const bookTravel = positions.hero - h;
+  const reveal = smooth((y - bookTravel * .55) / (bookTravel * .2));
   const desert = smooth((y - positions.story + h * .85) / (h * 1.25));
   const coast = smooth((y - positions.coast + h * .25) / Math.max(h, positions.end - positions.coast));
   root.style.setProperty('--veil-opacity', (1 - reveal).toFixed(4));
   root.style.setProperty('--desert-opacity', desert.toFixed(4));
   root.style.setProperty('--coast-opacity', coast.toFixed(4));
+  root.style.setProperty('--la-arrival', coast.toFixed(4));
+  document.body.classList.toggle('in-los-angeles', coast>.55);
   root.style.setProperty('--progress', clamp(y / positions.total).toFixed(4));
   document.body.classList.toggle('scrolled', y > positions.hero * .75);
   document.querySelector('#journey-place').textContent = coast > .5 ? 'LOS ÁNGELES' : desert > .5 ? (language === 'en' ? 'THE JOURNEY' : language === 'quc' ? 'B’E' : 'EL CAMINO') : 'GUATEMALA';
@@ -52,6 +55,7 @@ async function setLanguage(next) {
     const nextMessages = await response.json();
     if (requestId !== localeRequest) return;
     messages = nextMessages; language = next;
+    document.dispatchEvent(new CustomEvent('ben-language', { detail: { language: next, messages: nextMessages } }));
     root.lang = next;
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const value = messages[el.dataset.i18n];
