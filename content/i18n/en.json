@@ -95,5 +95,9 @@
   "merchDetails": "View concept",
   "demoPrice": "Example price",
   "productConcept": "Concept product. Not for sale. Provisional image and price.",
-  "mailDemoResult": "This is a preview: your email was not saved or sent. The mailing service will be connected before launch."
+  "mailDemoResult": "This is a preview: your email was not saved or sent. The mailing service will be connected before launch.",
+  "tiktokLoading": "Loading TikTok…",
+  "tiktokUnavailable": "This post cannot play here. Open it on TikTok.",
+  "openTiktok": "Open on TikTok",
+  "storyScroll": "KEEP SCROLLING TO FOLLOW THE JOURNEY →"
 }

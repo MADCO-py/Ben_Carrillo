@@ -95,5 +95,9 @@
   "merchDetails": "Chawila ri k’utb’al",
   "demoPrice": "Rajil rech k’utb’al",
   "productConcept": "K’utb’al jastaq. Man kak’ayix taj. Wachib’al xuquje’ rajil rech k’utb’al.",
-  "mailDemoResult": "Are wa’ jun k’utb’al: man xyak ta xuquje’ man xtaq ta ri acorreo."
+  "mailDemoResult": "Are wa’ jun k’utb’al: man xyak ta xuquje’ man xtaq ta ri acorreo.",
+  "tiktokLoading": "Cargando TikTok…",
+  "tiktokUnavailable": "Esta publicación no se puede reproducir aquí. Abrila en TikTok.",
+  "openTiktok": "Abrir en TikTok",
+  "storyScroll": "SEGUÍ BAJANDO PARA RECORRER EL CAMINO →"
 }

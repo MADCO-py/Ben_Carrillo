@@ -95,5 +95,9 @@
   "merchDetails": "Ver concepto",
   "demoPrice": "Precio de ejemplo",
   "productConcept": "Producto conceptual. No está a la venta. Imagen y precio provisionales.",
-  "mailDemoResult": "Esta es una vista previa: tu correo no se guardó ni se envió. Conectaremos la lista antes del lanzamiento."
+  "mailDemoResult": "Esta es una vista previa: tu correo no se guardó ni se envió. Conectaremos la lista antes del lanzamiento.",
+  "tiktokLoading": "Cargando TikTok…",
+  "tiktokUnavailable": "Esta publicación no se puede reproducir aquí. Abrila en TikTok.",
+  "openTiktok": "Abrir en TikTok",
+  "storyScroll": "SEGUÍ BAJANDO PARA RECORRER EL CAMINO →"
 }

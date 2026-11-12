@@ -1,3 +1,5 @@
+import { createStoryRail } from './story-rail.js?v=20261112-walker3';
+
 const root = document.documentElement;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const hero = document.querySelector('#inicio');
@@ -6,11 +8,13 @@ const desertLayer=document.querySelector('.landscape.desert');
 const coastLayer=document.querySelector('.landscape.coast');
 const journeyFill=document.querySelector('.journey-meter i');
 const story = document.querySelector('#historia');
+const storyRail = createStoryRail(story, desertLayer, reducedMotion);
 const outro = document.querySelector('#redes');
 let positions = {}, scheduled = false, messages = {}, language = 'es';
 const clamp = (n) => Math.max(0, Math.min(1, n));
 const smooth = (n) => { const x = clamp(n); return x * x * (3 - 2 * x); };
 function measure() {
+  storyRail.measure();
   const y = window.scrollY;
   positions = {
     hero: hero.offsetHeight,
@@ -26,7 +30,7 @@ function updateWorld() {
   const y = window.scrollY, h = innerHeight;
   const bookTravel = positions.hero - h;
   const reveal = smooth((y - bookTravel * .55) / (bookTravel * .2));
-  const desert = smooth((y - positions.story + h * .85) / (h * 1.25));
+  const desert = smooth((y - positions.story + h * .85) / (h * .85));
   const coast = smooth((y - positions.coast + h * .25) / Math.max(h, positions.end - positions.coast));
   root.style.setProperty('--veil-opacity', (1 - reveal).toFixed(4));
   whiteVeil.style.opacity=(1-reveal).toFixed(4);
@@ -34,6 +38,7 @@ function updateWorld() {
   desertLayer.style.opacity=desert.toFixed(4);
   root.style.setProperty('--coast-opacity', coast.toFixed(4));
   coastLayer.style.opacity=coast.toFixed(4);
+  storyRail.update(y);
 
   document.body.classList.toggle('in-los-angeles', coast>.55);
   root.style.setProperty('--progress', clamp(y / positions.total).toFixed(4));
@@ -43,6 +48,7 @@ function updateWorld() {
 }
 addEventListener('scroll', () => { if (!scheduled) { scheduled = true; requestAnimationFrame(updateWorld); } }, { passive: true });
 addEventListener('resize', measure);
+reducedMotion.addEventListener('change', measure);
 new ResizeObserver(() => { if (!scheduled) { scheduled = true; requestAnimationFrame(measure); } }).observe(document.querySelector('main'));
 document.fonts.ready.then(measure);
 addEventListener('load', measure);

@@ -13,10 +13,11 @@ const assert = require('node:assert/strict');
  assert.equal(await page.locator('iframe').count(),0,'External players must not load on entry');
  await page.screenshot({path:'artifacts/desktop.png'});
  await page.screenshot({path:'artifacts/desktop-full.png',fullPage:true});
+ const originalBookTitle = await page.locator('h1').textContent();
  for(const lang of ['en','quc','es']){
   await page.locator(`[data-lang="${lang}"]`).click();
   await page.waitForFunction(lang=>document.documentElement.lang===lang,lang);
-  assert.equal((await page.locator('h1').textContent()).replace(/\s+/g,' ').trim(),'¿QUIÉN PUTAS ESBEN CARRILLO?');
+  assert.equal(await page.locator('h1').textContent(),originalBookTitle,'Book title stays in Spanish across languages');
  }
  const dims=await page.evaluate(()=>({w:innerWidth,sw:document.documentElement.scrollWidth}));assert(dims.sw<=dims.w,JSON.stringify(dims));
  const coverBounds=await page.locator('.book-cover').boundingBox();

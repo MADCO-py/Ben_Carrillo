@@ -1,0 +1,87 @@
+/* A native scroll runway pins the desert chapter until the last post passes. */
+.story-rail{display:block;position:relative;min-height:0;padding:0;gap:0;background:linear-gradient(180deg,#32251938,#35241066);color:#fff}
+.story-sticky{padding:42px 0 24px}
+.story-sticky>.section-kicker,.story-controls{margin:0 5%}
+.story-window{position:relative;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:#ffffff80 transparent}
+.story-track{position:relative;display:flex;align-items:center;width:max-content;gap:clamp(180px,28vw,460px);padding:28px 5vw 30px;min-height:0}
+.story-panel{flex-shrink:0}
+.story-opening{display:grid;grid-template-columns:1fr .8fr;align-items:center;gap:5vw;width:85vw;padding-right:4vw}
+.story-opening h2{font-size:clamp(66px,8vw,140px);margin:22px 0 0}
+.story-opening .story-copy{padding:26px;background:#2c281f85;backdrop-filter:none}
+.story-opening .journey-copy .handwritten{font-size:clamp(30px,3vw,46px);line-height:1.15}
+.story-opening .story-copy p:not(.handwritten){font-size:14px;line-height:1.65}
+.story-opening .story-copy button{background:none;color:inherit;text-align:left;font-size:12px}
+.story-post{width:min(350px,76vw);align-self:center}
+.story-post-heading{display:flex;justify-content:space-between;gap:12px;font-size:10px;letter-spacing:.09em;margin-bottom:12px}
+.story-player{position:relative;aspect-ratio:9/16;width:100%;background:#181612;box-shadow:0 12px 38px #0003;overflow:hidden}
+.story-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#181612}
+.story-player-loading{position:absolute;inset:0;display:grid;place-content:center;font-size:12px;color:#eee0c8}
+.story-post-link{display:inline-block;font-size:11px;padding:12px 0 3px;border-bottom:1px solid #fff7}
+.story-player-error{font-size:11px;line-height:1.5;margin-top:10px;max-width:320px}
+.story-controls{display:flex;align-items:center;gap:24px;padding-top:12px}
+.story-scroll-note{font-size:9px;letter-spacing:.08em;max-width:280px}
+.story-rail-progress{height:2px;background:#ffffff38;flex:1;overflow:hidden}
+.story-rail-progress span{display:block;height:100%;width:100%;background:#f4ebd6;transform:scaleX(0);transform-origin:left}
+.story-rail-buttons{display:flex;gap:8px}
+.story-rail-buttons button{background:transparent;color:inherit;border:1px solid #ffffff50;width:40px;height:36px;font-size:21px}
+.story-rail-buttons button:hover{background:#ffffff18}
+.story-rail-buttons button:disabled{opacity:.3;cursor:default}
+.story-pinned .story-sticky{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:space-between;overflow:clip}
+.story-pinned .story-window{overflow:clip;flex:1;min-height:0;display:flex;align-items:center}
+.story-pinned .story-track{will-change:transform}
+.story-pinned .story-post{width:min(350px,76vw,calc((var(--story-window-height,600px) - 125px) * .5625))}
+.landscape.desert{will-change:transform,opacity}
+/* Foreground stays separate from the horizontal cards and their player hit areas. */
+.story-walker-lane{position:relative;flex-shrink:0;height:140px;margin:0 5%;isolation:isolate}
+.story-walker-lane::after{content:'';position:absolute;bottom:6px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#f2d9a135,transparent);z-index:-1}
+.story-walker{position:absolute;left:0;bottom:0;width:116px;height:140px;padding:0;background:none;border:0;touch-action:manipulation;will-change:transform}
+.story-walker::after{content:'';position:absolute;bottom:7px;left:15%;width:70%;height:7px;background:#231a1255;border-radius:50%;z-index:-1}
+.walker-facing,.walker-sheet{position:absolute;inset:0;display:block}
+.walker-sheet{overflow:hidden;pointer-events:none}
+.walker-atlas{display:block;width:400%;max-width:none;height:100%;user-select:none;animation:walker-frames .9s steps(4,end) infinite;animation-play-state:paused}
+.walker-run,.walker-rest{display:none}
+.story-walker[data-state="run"] .walker-walk,.story-walker[data-state="sprint"] .walker-walk,.story-walker[data-state="turbo"] .walker-walk,.story-walker[data-state="rest"] .walker-walk{display:none}
+.story-walker[data-state="run"] .walker-run,.story-walker[data-state="sprint"] .walker-run,.story-walker[data-state="turbo"] .walker-run,.story-walker[data-state="rest"] .walker-rest{display:block}
+.walker-run .walker-atlas{animation-duration:.36s}
+.story-walker[data-state="sprint"] .walker-run .walker-atlas{animation-duration:.23s}
+.story-walker[data-state="turbo"] .walker-run .walker-atlas{animation-duration:.16s}
+.walker-rest .walker-atlas{animation-duration:2.8s}
+.walker-active .walker-atlas{animation-play-state:running}
+.walker-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@keyframes walker-frames{to{transform:translateX(-100%)}}
+@media(max-width:700px){
+ .story-sticky{padding:28px 0 20px}
+ .story-sticky .section-kicker{font-size:8px}
+ .story-track{gap:clamp(150px,45vw,300px);padding-top:22px;padding-bottom:20px}
+ .story-opening{width:90vw;grid-template-columns:1fr;gap:18px;padding-right:6vw}
+ .story-opening h2{font-size:clamp(62px,17vw,100px);line-height:.85;margin-top:15px}
+ .story-opening .story-copy{padding:15px 18px}
+ .story-opening .journey-copy .handwritten{font-size:27px;margin-bottom:12px}
+ .story-opening .story-copy p:not(.handwritten){font-size:12px;margin-bottom:15px;line-height:1.5}
+ .story-opening .story-copy button{font-size:10px}
+ .story-controls{gap:12px}
+ .story-scroll-note{max-width:155px;font-size:8px;line-height:1.5}
+ .story-rail-buttons{gap:5px}
+ .story-rail-buttons button{width:32px;height:32px;font-size:18px}
+ .story-pinned .story-post{width:min(76vw,calc((var(--story-window-height,600px) - 115px) * .5625))}
+ .story-walker-lane{height:115px}
+ .story-walker{width:95.3px;height:115px}
+}
+@media(max-height:740px) and (min-height:541px){
+ .story-walker-lane{height:90px}
+ .story-walker{width:74.6px;height:90px}
+ .story-opening h2{font-size:clamp(44px,8svh,65px);margin-top:12px}
+ .story-opening .story-copy{padding:12px}
+ .story-opening .journey-copy .handwritten{font-size:23px;margin-bottom:10px}
+ .story-opening .story-copy p:not(.handwritten){font-size:11px;margin-bottom:10px}
+ .story-opening{gap:12px}
+}
+@media(prefers-reduced-motion:reduce),(max-height:540px){
+ .story-sticky{position:relative;height:auto}
+ .story-opening{min-width:300px}
+ .story-opening h2{font-size:65px}
+ .story-post{width:260px}
+ .story-rail-progress{display:none}
+ .story-rail-buttons{margin-left:auto}
+}
+@media(prefers-reduced-motion:reduce){.walker-atlas{animation:none}.story-walker{will-change:auto}}
