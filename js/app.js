@@ -1,6 +1,10 @@
 const root = document.documentElement;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const hero = document.querySelector('#inicio');
+const whiteVeil=document.querySelector('.white-veil');
+const desertLayer=document.querySelector('.landscape.desert');
+const coastLayer=document.querySelector('.landscape.coast');
+const journeyFill=document.querySelector('.journey-meter i');
 const story = document.querySelector('#historia');
 const outro = document.querySelector('#redes');
 let positions = {}, scheduled = false, messages = {}, language = 'es';
@@ -25,11 +29,15 @@ function updateWorld() {
   const desert = smooth((y - positions.story + h * .85) / (h * 1.25));
   const coast = smooth((y - positions.coast + h * .25) / Math.max(h, positions.end - positions.coast));
   root.style.setProperty('--veil-opacity', (1 - reveal).toFixed(4));
+  whiteVeil.style.opacity=(1-reveal).toFixed(4);
   root.style.setProperty('--desert-opacity', desert.toFixed(4));
+  desertLayer.style.opacity=desert.toFixed(4);
   root.style.setProperty('--coast-opacity', coast.toFixed(4));
-  root.style.setProperty('--la-arrival', coast.toFixed(4));
+  coastLayer.style.opacity=coast.toFixed(4);
+
   document.body.classList.toggle('in-los-angeles', coast>.55);
   root.style.setProperty('--progress', clamp(y / positions.total).toFixed(4));
+  journeyFill.style.height=(clamp(y/positions.total)*100).toFixed(2)+'%';
   document.body.classList.toggle('scrolled', y > positions.hero * .75);
   document.querySelector('#journey-place').textContent = coast > .5 ? 'LOS ÁNGELES' : desert > .5 ? (language === 'en' ? 'THE JOURNEY' : language === 'quc' ? 'B’E' : 'EL CAMINO') : 'GUATEMALA';
 }

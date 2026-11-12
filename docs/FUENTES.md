@@ -59,3 +59,8 @@ El título permanece en español por decisión expresa del usuario. Los nombres 
 - Papel rayado, marcas de lápiz, manchas de café y desgaste: SVG originales creados para este sitio, en `assets/textures/`.
 - La identidad transita de la libreta cálida hacia composiciones de Los Ángeles con DM Sans, azul, blanco y bordes rectos.
 - Merch mantiene ilustraciones conceptuales propias: no son fotografías de productos disponibles ni productos oficiales Yeezy. Se amplió a doce conceptos para mostrar la cuadrícula de dos filas de seis en escritorio.
+
+## Optimización Firefox
+
+- html-to-image 1.11.13, licencia MIT: https://github.com/bubkoo/html-to-image. Copia local en `js/vendor/` para preparar las caras del libro en memoria; no depende de un CDN durante el uso del sitio.
+- Texturas WebP sin pérdida prerenderizadas desde los SVG originales, conservados en `assets/textures/`.

@@ -1,18 +1,26 @@
+/* Animated values stay on their owners instead of invalidating every text clone. */
+@property --book-open{syntax:"<number>";inherits:false;initial-value:0}
+@property --book-turn{syntax:"<number>";inherits:false;initial-value:0}
+@property --book-exit{syntax:"<number>";inherits:false;initial-value:0}
+@property --veil-opacity{syntax:"<number>";inherits:false;initial-value:1}
+@property --desert-opacity{syntax:"<number>";inherits:false;initial-value:0}
+@property --coast-opacity{syntax:"<number>";inherits:false;initial-value:0}
+@property --progress{syntax:"<number>";inherits:false;initial-value:0}
 /* Guatemala: an imperfect, worked-in notebook. */
 :root{--hand:'Schoolbell',cursive;--la-blue:#174de8;--la-ice:#edf4ff;--la-ink:#0c2142}
 .book-stage{color:#303638}
 .paper-page,.cover-inside>.paper-page,.leaf-face>.paper-page{
  color:#303638;
  background-color:#e5d4b3;
- background-image:linear-gradient(90deg,transparent 7.5%,#9f514c24 7.6%,#9f514c24 7.8%,transparent 7.9%),repeating-linear-gradient(0deg,transparent 0 30px,#587a9525 30px 31px),url('../assets/textures/notebook-wear.svg'),linear-gradient(110deg,#bba17a22,#f5e6c833 35%,#aa885526);
+ background-image:linear-gradient(90deg,transparent 7.5%,#9f514c24 7.6%,#9f514c24 7.8%,transparent 7.9%),repeating-linear-gradient(0deg,transparent 0 30px,#587a9525 30px 31px),url('../assets/textures/notebook-wear.webp'),linear-gradient(110deg,#bba17a22,#f5e6c833 35%,#aa885526);
  background-size:100% 100%,100% 31px,100% 100%,100% 100%;
  box-shadow:inset 0 0 55px #6b4a2525!important;
 }
 .paper-page::after{content:'';pointer-events:none;position:absolute;inset:0;z-index:10;background:radial-gradient(ellipse at 4% 92%,#55432a20,transparent 20%),linear-gradient(102deg,transparent 46%,#91754e18 49%,#fff8 49.5%,transparent 50.2%);mix-blend-mode:multiply}
 .book-spread{clip-path:polygon(.1% .3%,12% 0,31% .2%,49.9% .1%,63% .3%,79% 0,99.8% .2%,100% 31%,99.8% 59%,100% 82%,99.7% 99.8%,74% 100%,51% 99.8%,26% 100%,.2% 99.7%,0 73%,.2% 44%)}
-.paper-page:first-child{border-right:1px solid #6b4c3633;background-image:linear-gradient(90deg,transparent 84%,#6b4d3038),linear-gradient(90deg,transparent 7.5%,#9f514c24 7.6%,#9f514c24 7.8%,transparent 7.9%),repeating-linear-gradient(0deg,transparent 0 30px,#587a9525 30px 31px),url('../assets/textures/notebook-wear.svg');background-size:100% 100%,100% 100%,100% 31px,100% 100%}
+.paper-page:first-child{border-right:1px solid #6b4c3633;background-image:linear-gradient(90deg,transparent 84%,#6b4d3038),linear-gradient(90deg,transparent 7.5%,#9f514c24 7.6%,#9f514c24 7.8%,transparent 7.9%),repeating-linear-gradient(0deg,transparent 0 30px,#587a9525 30px 31px),url('../assets/textures/notebook-wear.webp');background-size:100% 100%,100% 100%,100% 31px,100% 100%}
 .paper-page:nth-child(2){background-position:0 0,0 7px,100% 100%,0 0}
-.cover-face{background-image:url('../assets/textures/cover-scuffs.svg'),radial-gradient(ellipse at 3% 97%,#c7a57677,transparent 20%),radial-gradient(ellipse at 97% 3%,#be9d6b66,transparent 16%),linear-gradient(90deg,#20170fa6,transparent 5%,#a4774c55 7%,transparent 11%,#29180c33 97%,#29180caa),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.25' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23ddc197' opacity='.25' filter='url(%23n)' d='M0 0h160v160H0z'/%3E%3C/svg%3E");background-size:100% 100%,100% 100%,100% 100%,100% 100%,160px 160px}
+.cover-face{background-image:url('../assets/textures/cover-scuffs.webp'),radial-gradient(ellipse at 3% 97%,#c7a57677,transparent 20%),radial-gradient(ellipse at 97% 3%,#be9d6b66,transparent 16%),linear-gradient(90deg,#20170fa6,transparent 5%,#a4774c55 7%,transparent 11%,#29180c33 97%,#29180caa),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.25' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23ddc197' opacity='.25' filter='url(%23n)' d='M0 0h160v160H0z'/%3E%3C/svg%3E");background-size:100% 100%,100% 100%,100% 100%,100% 100%,160px 160px}
 .cover-title{font-family:'Schoolbell',cursive;font-weight:400;letter-spacing:-.065em;transform:rotate(-7deg) skewY(-1.3deg);text-shadow:1px 1px #eee0c155,-.7px 0 #301e0d33}
 .cover-title::after{height:11px;border-top:2px solid;left:-3%;width:112%;transform:rotate(-4deg);opacity:.7}
 .book-journey .page-note,.book-journey .page-number,.book-journey .cover-edition,.book-journey .skip-book{font-family:var(--hand);letter-spacing:.015em}
@@ -138,7 +146,7 @@
 /* A settled page is drawn as one face, avoiding seams between curved strips. */
 .turning-page.leaf-flat-front>.leaf-front,.turning-page.leaf-flat-back>.leaf-back{display:block!important}
 .turning-page.leaf-flat-front>.leaf-segment,.turning-page.leaf-flat-back>.leaf-segment{display:none}
-.index-links,.bio-text-page{background-image:linear-gradient(90deg,#6b4d301c,transparent 9%),linear-gradient(90deg,transparent 7.5%,#9f514c20 7.6%,#9f514c20 7.8%,transparent 7.9%),repeating-linear-gradient(0deg,transparent 0 30px,#587a9525 30px 31px),url('../assets/textures/notebook-wear.svg');background-size:100% 100%,100% 100%,100% 31px,140% 145%;background-position:0 0,0 0,0 7px,58% 80%}
+.index-links,.bio-text-page{background-image:linear-gradient(90deg,#6b4d301c,transparent 9%),linear-gradient(90deg,transparent 7.5%,#9f514c20 7.6%,#9f514c20 7.8%,transparent 7.9%),repeating-linear-gradient(0deg,transparent 0 30px,#587a9525 30px 31px),url('../assets/textures/notebook-wear.webp');background-size:100% 100%,100% 100%,100% 31px,140% 145%;background-position:0 0,0 0,0 7px,58% 80%}
 @media(max-width:700px){.turning-page.leaf-flat-back>.leaf-back{display:none!important}}
 .la-nav{display:none;position:fixed;top:16px;left:5%;right:5%;max-width:940px;margin:auto;z-index:25;background:#fff;color:#17345c;box-shadow:0 8px 25px #0c214218;border:1px solid #dce5f1;min-height:58px;padding:0 25px;align-items:center;justify-content:space-between;gap:25px;font-family:'DM Sans',Arial,sans-serif}
 .in-los-angeles .la-nav{display:flex}
@@ -160,3 +168,17 @@
 .book-arrow{opacity:calc((1 - var(--book-exit)) * .65)}
 @media(max-width:700px){.book-arrow{width:33px;height:85px;top:calc(50% - 42px)}.book-arrow-prev{left:1px}.book-arrow-next{right:1px}.book-arrow svg{stroke-width:1.5}}
 @media(prefers-reduced-motion:reduce),(max-height:540px){.book-arrow{display:none}}
+
+/* Each clipped face is isolated from the rest of the document's layout. */
+.leaf-crop{contain:layout paint style}
+
+.leaf-segment .leaf-face::after{display:none}
+.leaf-shade{position:absolute;inset:0;background:#362716;pointer-events:none;will-change:opacity}
+.page-cast-shadow{will-change:transform,opacity}
+/* Moving strips share two prepared, full-resolution faces instead of reflowing text. */
+.leaf-crop>img{display:block;width:100%;height:100%;max-width:none;object-fit:fill;pointer-events:none;user-select:none}
+.leaf-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:13;pointer-events:none}
+.turning-page.gpu-page>.leaf-segment{display:none}
+@media(prefers-reduced-motion:reduce),(max-height:540px){.leaf-canvas{display:none}}
+/* Keep the moving surface outside the nested CSS-3D book to avoid Firefox readbacks. */
+.leaf-canvas{transform:translateZ(0);will-change:transform}

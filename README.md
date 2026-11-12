@@ -92,3 +92,23 @@ El giro sigue directamente el scroll: detenerse permite mirar la hoja a medio pa
 La salida del libro enlaza con scroll normal. En movimiento reducido o ventanas muy bajas se conserva la lectura en flujo normal. Schoolbell se precarga; los archivos CSS/JS llevan una versión explícita en sus URLs para evitar mezclar recursos viejos en caché después de publicar en GitHub Pages.
 
 `node scripts/check-book-transitions.cjs` comprueba giros intermedios, ambas flechas, vuelta, salida y carga de recursos bajo `/Ben_Carrillo/`. Se puede configurar `SITE_URL` para apuntar al servidor local o al sitio publicado. Los asteriscos naranjas del índice y DREAMER se reemplazaron por garabatos en grafito.
+
+## Rendimiento del giro en Firefox
+
+Los valores animados se registran como propiedades CSS que no se heredan, evitando recalcular todos los textos de las copias de la hoja en cada fotograma. Las sombras se componen mediante opacidad, y la hoja se prepara en grupos pequeños durante los tiempos libres del navegador.
+
+Las texturas de `assets/textures/*.svg` se conservan como originales. Las versiones `.webp` se prerenderizaron al tamaño original y se codificaron sin pérdida: mantienen el acabado sin ejecutar filtros SVG durante el giro.
+
+Las flechas dedican su recorrido a los tramos visibles de apertura, vuelta y salida. Su reloj usa tiempo real: los fotogramas lentos ya no multiplican la duración del movimiento. El scroll manual sigue controlando la hoja directamente.
+
+Las comprobaciones aceptan `BROWSER=firefox` y `SITE_URL` para probar específicamente Firefox y la ruta de GitHub Pages.
+
+### Caras preparadas para el giro
+
+`js/vendor/html-to-image.js` (1.11.13, MIT) prepara dos imágenes temporales en memoria a partir del contenido real de la hoja, con Schoolbell y las imágenes locales incorporadas. Los segmentos comparten estas dos caras durante el giro; las páginas en reposo conservan el HTML accesible y sus enlaces. Se preparan otra vez al cambiar idioma o tamaño, a la densidad de pantalla hasta 2×. Si la captura no es compatible, se conserva el renderizado HTML.
+
+No se usa un servidor ni se envían datos: la preparación sucede dentro del navegador. La biblioteca y su licencia están guardadas localmente.
+
+El giro preparado se dibuja en una sola superficie WebGL mediante `js/page-renderer.js`, con una malla curva de 32 tramos. Las imágenes se comparten durante el movimiento, evitando transformar y pintar docenas de capas HTML. Se precalienta el primer dibujo durante la preparación; si WebGL no está disponible o se pierde el contexto, siguen disponibles las caras HTML/imagen. Los valores animados no se heredan a todo el documento.
+
+En Firefox se priorizan las caras cacheadas con composición CSS nativa, evitando la copia adicional del canvas WebGL en ese motor. Los demás navegadores pueden usar la malla WebGL. La preparación pesada se difiere hasta que se abre el cuaderno: la portada inicial no construye las dieciséis copias de texto. Durante las flechas, la posición visual se anima sin desplazar todo el documento en cada fotograma; un gesto manual sincroniza inmediatamente el scroll real.

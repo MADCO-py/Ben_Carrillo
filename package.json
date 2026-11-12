@@ -5,7 +5,7 @@
   "description": "Sitio estático de BEN CARRILLO para GitHub Pages",
   "scripts": {
     "dev": "python3 -m http.server 4173 --bind 127.0.0.1",
-    "check": "node --check js/app.js && node --check js/book.js",
+    "check": "node --check js/app.js && node --check js/book.js && node --check js/page-renderer.js",
     "test": "node scripts/check-site.cjs"
   },
   "devDependencies": {
