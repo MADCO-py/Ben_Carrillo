@@ -16,7 +16,7 @@
   "sevenSongs": "SEVEN SONGS. ONE UNIVERSE.",
   "albumBody": "Press play. Let the songs tell the rest.",
   "listenSpotify": "Listen on Spotify",
-  "allPlatforms": "All platforms ↗",
+  "allPlatforms": "All platforms",
   "loadAlbum": "Open the album player",
   "externalPlayer": "Opening the player connects to Spotify.",
   "musicTitle": "BEYOND\nONE GENRE.",
@@ -99,5 +99,6 @@
   "tiktokLoading": "Loading TikTok…",
   "tiktokUnavailable": "This post cannot play here. Open it on TikTok.",
   "openTiktok": "Open on TikTok",
-  "storyScroll": "KEEP SCROLLING TO FOLLOW THE JOURNEY →"
+  "storyScroll": "KEEP SCROLLING TO FOLLOW THE JOURNEY →",
+  "choosePlatform": "CHOOSE WHERE TO LISTEN."
 }

@@ -1,3 +1,4 @@
+import { createTrackRow, setupPlatforms } from './music.js?v=20261112-music1';
 import { createStoryRail } from './story-rail.js?v=20261112-walker3';
 
 const root = document.documentElement;
@@ -91,16 +92,7 @@ document.querySelectorAll('[data-lang]').forEach((button) => button.addEventList
 let savedLanguage = 'es';
 try { savedLanguage = localStorage.getItem('ben-language') || 'es'; } catch {}
 setLanguage(['es','en','quc'].includes(savedLanguage) ? savedLanguage : 'es');
-function activateSpotify(shell) {
-  const frame = document.createElement('iframe');
-  frame.title = shell.dataset.spotify.startsWith('album') ? 'HIJO DE JAH · Spotify' : 'BEN CARRILLO · Spotify';
-  frame.src = `https://open.spotify.com/embed/${shell.dataset.spotify}?utm_source=generator&theme=0`;
-  frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-  frame.setAttribute('allowfullscreen', '');
-  frame.height = '352';
-  shell.replaceChildren(frame);
-}
-document.querySelectorAll('.embed-activate').forEach((button) => button.addEventListener('click', () => activateSpotify(button.closest('[data-spotify]'))));
+setupPlatforms();
 async function loadContent() {
   try {
     const [albumResponse, videosResponse] = await Promise.all([fetch('content/album.json'),fetch('content/videos.json')]);
@@ -111,14 +103,7 @@ async function loadContent() {
     for (const [i, title] of selected.entries()) {
       const track = album.tracks.find((item) => item.title === title);
       if (!track) continue;
-      const link = document.createElement('a');
-      link.className = 'track'; link.href = `https://open.spotify.com/track/${track.id}`; link.target = '_blank'; link.rel = 'noopener'; link.dataset.track = track.title;
-      link.setAttribute('aria-label', `${messages.listen || 'Escuchar'}: ${track.title} · Spotify`);
-      const number = document.createElement('span'); number.className = 'track-number'; number.textContent = `0${i + 1}`;
-      const heading = document.createElement('h3'); heading.textContent = track.title.toUpperCase();
-      const time = document.createElement('small'); const seconds = Math.floor(track.duration / 1000); time.textContent = `${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;
-      const arrow = document.createElement('span'); arrow.className = 'track-arrow'; arrow.textContent = '↗'; arrow.setAttribute('aria-hidden','true');
-      link.append(number,heading,time,arrow);list.append(link);
+      list.append(createTrackRow(track, i));
     }
     const grid = document.querySelector('#video-grid');
     for (const video of videos) {

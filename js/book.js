@@ -13,6 +13,16 @@ const ease = n => { const x=clamp(n);return x*x*(3-2*x); };
 let raf = false;
 let language='es', copy={};
 let virtualBookPosition=null;
+let viewportWidth=innerWidth, stableBookHeight=innerHeight;
+function syncMobileBookSize(){
+  if(innerWidth!==viewportWidth){viewportWidth=innerWidth;stableBookHeight=innerHeight;}
+  const mobile=innerWidth<=700&&!staticBook();
+  section.style.height=mobile?`${stableBookHeight*3.6+innerHeight}px`:'';
+  document.documentElement.style.setProperty('--book-viewport-height',`${innerHeight}px`);
+}
+syncMobileBookSize();
+addEventListener('resize',syncMobileBookSize);
+bookMode.addEventListener('change',syncMobileBookSize);
 let lastUiKey='';
 const lastBookValues={open:NaN,turn:NaN,exit:NaN};
 function clonePage(source, target) {
@@ -93,8 +103,8 @@ function applyFaceTextures(){
   }
   appliedTextureKey=faceTextures.key;turningPage.dataset.renderMode='texture';
   // Firefox's compositor handles shared image faces without WebGL readbacks.
-  if(!pageRenderer&&!/Firefox\//.test(navigator.userAgent))pageRenderer=createPageRenderer(notebook);
-  if(pageRenderer?.setFaces(faceTextures.frontImage,faceTextures.backImage)){turningPage.classList.add('gpu-page');turningPage.dataset.renderMode='webgl';pageRenderer.warmUp(pageWidth,pageHeight);}
+  if(!pageRenderer&&innerWidth>700&&!/Firefox\//.test(navigator.userAgent))pageRenderer=createPageRenderer(notebook);
+  if(innerWidth>700&&pageRenderer?.setFaces(faceTextures.frontImage,faceTextures.backImage)){turningPage.classList.add('gpu-page');turningPage.dataset.renderMode='webgl';pageRenderer.warmUp(pageWidth,pageHeight);}
 }
 async function prepareFaceTextures(){
   if(staticBook())return;
@@ -134,7 +144,8 @@ function curveLeaf(turn) {
   lastCurveTurn=turn;
   turningPage.classList.toggle('leaf-flat-front',turn<.001);
   turningPage.classList.toggle('leaf-flat-back',turn>.999);
-  if(faceTextures?.key===textureKey()&&pageRenderer?.draw(turn,pageWidth,pageHeight)){
+  if(innerWidth<=700){pageRenderer?.hide();turningPage.classList.remove('gpu-page');}
+  if(innerWidth>700&&faceTextures?.key===textureKey()&&pageRenderer?.draw(turn,pageWidth,pageHeight)){
     const lift=Math.sin(Math.PI*turn);castShadow.style.opacity=String(lift*.7);castShadow.style.transform=`scaleX(${.3+lift*.7})`;return;
   }
   const slice=pageWidth/stripCount,amplitude=Math.sin(Math.PI*turn)*.72;
@@ -184,7 +195,7 @@ function updateBook() {
     document.querySelector('.book-arrow-next').style.opacity=String((1-exit)*.65);
     lastBookValues.exit=exit;
   }
-  const uiKey=[open>.001,open>=.999,turning,turn>=.999,open<.5,turn<.5,exit>.01,exit>.95,language].join(':');
+  const uiKey=[innerWidth<=700,open>.001,open>=.999,turning,turn>=.999,open<.5,turn<.5,exit>.01,exit>.95,language].join(':');
   if(uiKey===lastUiKey)return;
   lastUiKey=uiKey;
   // Both faces remain mounted. The actual sheet rotates around the spine.
@@ -192,7 +203,7 @@ function updateBook() {
   turningPage.style.opacity='1';
   turningPage.style.visibility=turning?'visible':'hidden';
   biography.style.opacity='1';biography.style.visibility=turning?'visible':'hidden';
-  biography.querySelector('.bio-photo-page').style.visibility=turn>=.999?'visible':'hidden';
+  biography.querySelector('.bio-photo-page').style.visibility=(innerWidth<=700&&turning)||turn>=.999?'visible':'hidden';
   index.style.opacity='1';index.style.visibility='visible';
   index.querySelector('.index-links').style.visibility=turning?'hidden':'visible';
   index.querySelector('.index-art').style.visibility=turn>=.999?'hidden':'visible';
@@ -202,6 +213,7 @@ function updateBook() {
   stage.style.pointerEvents=exit>.95?'none':'auto';
   document.body.classList.toggle('book-closed',open<.5);
   const active=open<.5?'cover':turn<.5?'index':'bio';
+  section.dataset.page=active;
   const previous=document.querySelector('.book-arrow-prev');
   const following=document.querySelector('.book-arrow-next');
   previous.disabled=(open<=.001&&turn<=.001)||exit>.95;

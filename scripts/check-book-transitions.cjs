@@ -3,6 +3,7 @@ const assert=require('node:assert/strict');
 (async()=>{
  const browser=await (process.env.BROWSER==='firefox'?firefox:chromium).launch();
  const page=await browser.newPage({viewport:{width:1440,height:960}});
+ await page.route('https://open.spotify.com/**',r=>r.fulfill({contentType:'text/html',body:'Spotify test'}));
  const errors=[],badResponses=[];
  page.on('pageerror',e=>errors.push(e.message));
  page.on('response',r=>{if(r.status()>=400)badResponses.push(`${r.status()} ${r.url()}`);});

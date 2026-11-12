@@ -16,7 +16,7 @@
   "sevenSongs": "WUQUB’ B’IX. JUN UWACH ULEW.",
   "albumBody": "Chatatab’ej. Ri taq b’ix kkib’ij ri tzijol.",
   "listenSpotify": "Chatatab’ej pa Spotify",
-  "allPlatforms": "Ronojel ri taq k’olib’al ↗",
+  "allPlatforms": "Todas las plataformas",
   "loadAlbum": "Chajaka ri album",
   "externalPlayer": "We kajak, kok pa Spotify.",
   "musicTitle": "MAN XUWI TA\nJUN B’IX.",
@@ -99,5 +99,6 @@
   "tiktokLoading": "Cargando TikTok…",
   "tiktokUnavailable": "Esta publicación no se puede reproducir aquí. Abrila en TikTok.",
   "openTiktok": "Abrir en TikTok",
-  "storyScroll": "SEGUÍ BAJANDO PARA RECORRER EL CAMINO →"
+  "storyScroll": "SEGUÍ BAJANDO PARA RECORRER EL CAMINO →",
+  "choosePlatform": "ELEGÍ DÓNDE ESCUCHAR."
 }

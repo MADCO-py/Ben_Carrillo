@@ -1,0 +1,45 @@
+/* A phone has one complete page, a stable scroll runway and a changing visual
+   viewport when its browser bars fold away. Keep those dimensions separate. */
+@media(max-width:700px) and (min-height:541px) and (prefers-reduced-motion:no-preference){
+ .book-stage,.notebook{height:var(--book-viewport-height,100dvh);min-height:0;max-height:none}
+ .notebook{transform:translateY(calc(-1.1 * var(--book-viewport-height,100dvh) * var(--book-exit)))!important}
+ .book-journey+#presentacion{margin-top:calc(-1 * var(--book-viewport-height,100dvh))}
+ .book-stage{width:100%;overflow:clip}
+ .book-cover{left:0;right:auto;width:100%;height:100%;transform-origin:left center}
+ .cover-title{top:12%;left:8%;font-size:clamp(65px,19vw,98px);max-width:84%;z-index:3}
+ .cover-edition{top:8%;left:8%}
+ .sticker-antigua{top:34%;right:4%;width:43%}
+ .sticker-tikal{top:43%;left:3%;width:36%}
+ .sticker-quetzal{top:47%;right:7%;width:23%}
+ .sticker-camioneta{bottom:16%;right:0;width:88%}
+ .sticker-hecho-en-guatemala{left:5%;bottom:29%;width:25%}
+ .cover-bottom{bottom:100px;left:8%;font-size:clamp(17px,4.8vw,23px)}
+ .bio-spread{grid-template-columns:1fr;grid-template-rows:clamp(165px,26dvh,230px) minmax(0,1fr);padding-bottom:58px}
+ .bio-photo-page{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-rows:auto auto 1fr;gap:6px 16px;padding:18px 7% 8px;min-height:0;overflow:visible}
+ .bio-photo-page .page-note{grid-column:1;line-height:1.2;font-size:8px}
+ .bio-photo-page h1{grid-column:1;font-size:clamp(22px,6.7vw,29px)!important;line-height:1;margin:5px 0 0;max-width:100%}
+ .bio-photo-page .book-polaroid{position:relative;grid-column:2;grid-row:1/4;align-self:center;top:auto;right:auto;width:100%;max-width:145px;margin:0;padding:6px 6px 10px;transform:rotate(-5deg)}
+ .bio-photo-page .book-polaroid img{aspect-ratio:1;max-height:145px;object-fit:cover}
+ .bio-photo-page .book-polaroid figcaption{font-size:9px;line-height:1.15;margin-top:5px}
+ .bio-photo-page .photo-scribble{grid-column:1;font-size:clamp(16px,4.5vw,21px);line-height:1.05;margin-top:5px;max-width:100%;text-align:left}
+ .bio-text-page{padding:10px 7% 14px;min-height:0;overflow-y:auto;scrollbar-width:thin}
+ .bio-text-page .bio-page-title{display:block;font-size:28px;line-height:1.1;margin-bottom:13px}
+ .bio-text-page p{font-size:clamp(11px,1.55dvh,13px);line-height:1.4;margin-bottom:9px}
+ .bio-text-page p:first-of-type{font-size:clamp(18px,2.6dvh,23px);line-height:1.15;margin-bottom:12px}
+ .bio-text-page .book-next{font-size:20px;line-height:1.2;margin-top:12px}
+ .bio-photo-page .page-number,.bio-text-page .page-number{display:none}
+ .book-bottomline{left:42px;right:42px;bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px 8px;align-items:center}
+ .book-bottomline .open-book{width:100%;font-size:18px;margin:0;text-align:center}
+ .book-journey[data-page="index"] .open-book,.book-journey[data-page="bio"] .open-book{display:none}
+ .book-pagination{gap:3px}
+ .book-pagination>span{width:12px}
+ .book-pagination button{font-size:17px;padding:3px}
+ .book-bottomline .skip-book{margin:0;font-size:11px}
+ .book-arrow{top:auto;bottom:calc(4px + env(safe-area-inset-bottom,0px));height:44px;width:31px}
+ .book-arrow-prev{left:3px}.book-arrow-next{right:3px}
+ .book-arrow svg{height:44px}
+ .index-links{padding-bottom:80px}
+ .chapter-grid{gap:35px 14px;margin-top:30px}
+ .index-links .margin-note{font-size:24px;margin-top:28px}
+ .index-links .book-next{font-size:22px;margin-top:18px}
+}

@@ -16,7 +16,7 @@
   "sevenSongs": "SIETE CANCIONES. UN UNIVERSO.",
   "albumBody": "Dale play. Dejá que las canciones cuenten el resto.",
   "listenSpotify": "Escuchar en Spotify",
-  "allPlatforms": "Todas las plataformas ↗",
+  "allPlatforms": "Todas las plataformas",
   "loadAlbum": "Abrir reproductor del álbum",
   "externalPlayer": "Al abrirlo, se conecta con Spotify.",
   "musicTitle": "SIN UN SOLO\nGÉNERO.",
@@ -99,5 +99,6 @@
   "tiktokLoading": "Cargando TikTok…",
   "tiktokUnavailable": "Esta publicación no se puede reproducir aquí. Abrila en TikTok.",
   "openTiktok": "Abrir en TikTok",
-  "storyScroll": "SEGUÍ BAJANDO PARA RECORRER EL CAMINO →"
+  "storyScroll": "SEGUÍ BAJANDO PARA RECORRER EL CAMINO →",
+  "choosePlatform": "ELEGÍ DÓNDE ESCUCHAR."
 }

@@ -71,3 +71,11 @@ El título permanece en español por decisión expresa del usuario. Los nombres 
 - Reproductor oficial para video e imágenes: https://developers.tiktok.com/docs/en/embed-player. Se utiliza `https://www.tiktok.com/player/v1/{id}`, sin reproducción automática. Se atienden los mensajes oficiales `pause` y `onPlayerError`, validando origen y ventana emisora.
 - No se descargan ni se redistribuyen las publicaciones. La prueba real de los reproductores devolvió errores de servidor de TikTok; los enlaces directos siguen disponibles.
 - Personaje caminando, corriendo y sentado tomando agua: tres hojas transparentes de 2172 × 724 px suministradas por el usuario. Copias originales en `assets/images/personaje/`; cada una contiene cuatro cuadros animados desde CSS, aislados por máscaras SVG que respetan los límites reales de cada dibujo. No se generaron ilustraciones nuevas.
+
+## Reproductores musicales y selector de plataformas
+
+- IDs y enlaces de HIJO DE JAH: proporcionados por el usuario (destinos limpios de los enlaces originales de Feature.fm), guardados en `content/platforms.json`. El sitio ya no envía al smartlink intermedio.
+- Spotify, código de embed con permisos de medios cifrados y tamaños completos: https://developer.spotify.com/documentation/embeds/tutorials/troubleshooting. Las muestras y la reproducción disponible dependen de Spotify y del navegador.
+- Apple Music, reproductores insertables: https://artists.apple.com/support/1117-apple-music-marketing-tools.
+- Deezer, generador oficial y formato de URL: https://widget.deezer.com/.
+- TIDAL, generador y documentación oficial: https://embed.tidal.com/ y https://developer.tidal.com/documentation/embeds/embeds-overview.

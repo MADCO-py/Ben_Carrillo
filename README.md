@@ -57,7 +57,7 @@ La comprobación verifica anchos de 360, 390, 768, 1024 y 1440 píxeles, idiomas
 - Sin secuestro del scroll ni audio automático al entrar.
 - Las tres capas se mantienen montadas; un solo `requestAnimationFrame` actualiza su opacidad.
 - Imágenes con dimensiones reservadas, fuentes locales y miniaturas locales.
-- Spotify y YouTube se conectan únicamente al activar un reproductor. Los enlaces externos permiten escuchar incluso si el embed falla.
+- Los reproductores de Spotify (álbum, artista y tres canciones) aparecen directamente y usan carga nativa diferida, sin reproducción automática. YouTube carga al activar sus videos. Los enlaces directos de las plataformas permiten escuchar incluso si un embed falla.
 - `prefers-reduced-motion` desactiva desplazamiento suave, animaciones y transformaciones decorativas.
 - ES / K’ICHE’ / EN conserva la selección en el navegador.
 - El título “¿QUIÉN PUTAS ES BEN CARRILLO?” se conserva en español.
@@ -124,3 +124,17 @@ Con movimiento reducido o pantallas de menos de 541 px de altura se usa una tira
 Prueba del recorrido: `node scripts/check-story-rail.cjs` (acepta `BROWSER=firefox`, `PLAYWRIGHT_MODULE` y `SITE_URL`). Se simula solamente la respuesta externa de TikTok para comprobar posición fija, paralaje, salida, retorno, flechas y tamaños sin depender del servicio.
 
 El personaje de `js/story-walker.js` usa las tres hojas PNG originales del usuario, guardadas en `assets/images/personaje/`: cuatro cuadros por hoja, sin modificar las ilustraciones. `js/walker-atlas.js` aplica máscaras SVG individuales porque los dibujos no están alineados en columnas uniformes; las poses de descanso usan un borde escalonado que separa la bandera de los pies del cuadro vecino. Camina de un extremo al otro; los tres primeros clics aumentan la velocidad de desplazamiento: cruza el ancho disponible aproximadamente en 1,6 s, 0,85 s y 0,45 s (con mínimos de velocidad para móvil). El cuarto lo sienta a tomar agua y el quinto vuelve a caminar. Su desplazamiento es independiente del scroll, no tapa los reproductores y se pausa fuera de pantalla o con la pestaña oculta. Con movimiento reducido conserva poses estáticas. Las imágenes se cargan al acercarse a la sección.
+
+### Música dentro del sitio
+
+`css/music.css` mantiene 352 píxeles interiores reales para los reproductores de álbum y artista. Un contenedor con borde o con `flex-shrink` podía reducir ese alto y activar el diseño compacto de Spotify, dejando espacio vacío. Los tres temas de la selección tienen reproductores nativos de 152 px, con su botón de reproducción y las muestras que Spotify habilite para el navegador. No se descargan ni se alojan audios.
+
+“Todas las plataformas” abre un selector local, alimentado por `content/platforms.json`: Spotify, Apple Music, YouTube/YouTube Music, Deezer y TIDAL se seleccionan en el mismo reproductor del álbum. Amazon Music y Pandora conservan enlaces directos claramente señalados con ↗. Se reemplaza el reproductor anterior al cambiar de plataforma. El perfil del artista permanece visible debajo de DREAMER, ahora rojo.
+
+### Cuaderno en celular
+
+`css/book-mobile.css` mantiene una página completa dentro del alto visible y reserva el borde inferior para paginación y flechas. La foto de la biografía se revela durante el giro, sin esperar al último fotograma; se evita WebGL en móvil para que no se superponga una foto ampliada al diseño de una sola página. El CTA del pie solo aparece en la portada: índice y biografía conservan sus propios botones.
+
+`js/book.js` separa el alto visible del recorrido de scroll: al plegarse las barras del navegador, el alto del cuaderno cambia y la distancia para pasar páginas se mantiene. Al girar el teléfono o cambiar de ancho se recalcula esa referencia. La biografía usa texto adaptable y permite desplazamiento interior si hace falta para leerla completa en pantallas bajas. El scroll manual conserva el control del giro y puede detenerse a mitad de una hoja.
+
+Prueba móvil: `node scripts/check-mobile-book.cjs`, con `BROWSER=firefox` opcional. Comprueba portada completa, foto durante el giro, un único CTA, contenido dentro del margen, cambios de barra del navegador y salida continua al viaje.

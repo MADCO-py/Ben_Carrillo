@@ -1,0 +1,10 @@
+[
+  {"name":"Spotify","embed":"https://open.spotify.com/embed/album/4cZEH6dICswIFdf8R4yzSv?utm_source=generator&theme=0","url":"https://open.spotify.com/album/4cZEH6dICswIFdf8R4yzSv","height":352},
+  {"name":"Apple Music","embed":"https://embed.music.apple.com/gt/album/hijo-de-jah/6780378263","url":"https://music.apple.com/gt/album/hijo-de-jah/6780378263","height":450},
+  {"name":"YouTube","embed":"https://www.youtube-nocookie.com/embed/videoseries?list=OLAK5uy_kDFJV_hEn6uRkCmP3MOqVwTn0rordH8tw","url":"https://www.youtube.com/playlist?list=OLAK5uy_kDFJV_hEn6uRkCmP3MOqVwTn0rordH8tw","height":352,"video":true},
+  {"name":"YouTube Music","embed":"https://www.youtube-nocookie.com/embed/videoseries?list=OLAK5uy_kDFJV_hEn6uRkCmP3MOqVwTn0rordH8tw","url":"https://music.youtube.com/playlist?list=OLAK5uy_kDFJV_hEn6uRkCmP3MOqVwTn0rordH8tw","height":352,"video":true},
+  {"name":"Deezer","embed":"https://widget.deezer.com/widget/dark/album/1005949261","url":"https://www.deezer.com/album/1005949261","height":352},
+  {"name":"TIDAL","embed":"https://embed.tidal.com/albums/536486563","url":"https://tidal.com/album/536486563","height":450},
+  {"name":"Amazon Music","url":"https://music.amazon.com/albums/B0H5BRV857"},
+  {"name":"Pandora","url":"https://www.pandora.com/artist/ben-carrillo/hijo-de-jah/AL9bhKtc76rXt9q"}
+]
