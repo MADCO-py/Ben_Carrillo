@@ -48,3 +48,16 @@
  .index-links .margin-note{font-size:24px;margin-top:28px}
  .index-links .book-next{font-size:22px;margin-top:18px}
 }
+/* Mobile is a single-page notebook, not the desktop spread's sixteen strips.
+   Only the front index sheet turns; the complete biography is revealed once
+   that sheet passes its edge. No enlarged photo-only back face can bleed in. */
+@media(max-width:700px) and (min-height:541px) and (prefers-reduced-motion:no-preference){
+ .turning-page>.leaf-segment,.turning-page>.leaf-back,.book-cover>.cover-inside{display:none!important}
+ .turning-page>.leaf-front.leaf-template{display:block!important;transform:translateZ(.1px)}
+ .turning-page>.leaf-front>.index-links{padding:8% 9% 80px;height:100%;width:100%}
+ .turning-page{backface-visibility:hidden;-webkit-backface-visibility:hidden;transform-style:flat}
+ .bio-spread{grid-template-rows:clamp(195px,29dvh,245px) minmax(0,1fr)}
+ .bio-photo-page{overflow:hidden}
+ .bio-spread .bio-photo-page h1{font-size:clamp(20px,5.8vw,25px)!important;line-height:1.05}
+ .bio-text-page{overscroll-behavior-y:contain}
+}

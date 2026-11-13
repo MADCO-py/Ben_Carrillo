@@ -30,8 +30,15 @@ const {chromium, firefox} = require(process.env.PLAYWRIGHT_MODULE || 'playwright
   await move(.585);
   assert.equal(await page.locator('.bio-photo-page').first().evaluate(el=>getComputedStyle(el).visibility),'visible','Photo is present while the mobile sheet reveals the biography');
   assert(!(await page.locator('.turning-page').getAttribute('class')).includes('gpu-page'),'Mobile uses native sheet composition');
+  assert.equal(await page.locator('.turning-page').getAttribute('data-render-mode'),'mobile-sheet');
+  assert.equal(await page.locator('.turning-page > .leaf-back').evaluate(el=>getComputedStyle(el).display),'none','The desktop photo-only back face never paints over the mobile biography');
+  assert.equal(await page.locator('.turning-page > .leaf-front').evaluate(el=>getComputedStyle(el).display),'block','Mobile turns one complete index sheet');
   await move(.70);
   assert(await page.locator('#biografia .book-polaroid-current').isVisible());
+  const title=await page.locator('#biografia h1').boundingBox(),header=await page.locator('#biografia .bio-photo-page').boundingBox();
+  assert(title.y+title.height<=header.y+header.height,'Biography title fits its own header');
+  assert.equal(await page.locator('#biografia .bio-photo-page').evaluate(el=>getComputedStyle(el).overflowY),'hidden');
+  assert.equal(await page.locator('#biografia .bio-text-page').evaluate(el=>getComputedStyle(el).overscrollBehaviorY),'contain','Reading the biography cannot chain a swipe into another book turn');
   assert(!(await page.locator('.open-book').isVisible()),'Do not repeat the journey CTA');
   const footer=await page.locator('.book-bottomline').boundingBox();
   assert(footer.y>=0&&footer.y+footer.height<=height+1,'Footer fits the visible screen');

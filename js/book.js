@@ -20,7 +20,7 @@ let viewportWidth=innerWidth, stableBookHeight=innerHeight;
 function syncMobileBookSize(){
   if(innerWidth!==viewportWidth){viewportWidth=innerWidth;stableBookHeight=innerHeight;}
   const mobile=innerWidth<=700&&!staticBook();
-  const visibleHeight=mobile?Math.max(innerHeight,stage.clientHeight):innerHeight;
+  const visibleHeight=mobile?stage.clientHeight:innerHeight;
   section.style.height=mobile?`${stableBookHeight*3.6+visibleHeight}px`:'';
   document.documentElement.style.setProperty('--book-viewport-height',`${visibleHeight}px`);
 }
@@ -80,7 +80,7 @@ function buildLeafStrips(limit=stripCount){
   if(typeof lastCurveTurn!=='undefined')lastCurveTurn=-1;
 }
 function prepareLeafInIdle(){
-  if(staticBook()||builtStrips===stripCount)return;
+  if(staticBook()||innerWidth<=700||builtStrips===stripCount)return;
   buildLeafStrips(4);
   if(builtStrips<stripCount)scheduleLeafPreparation();
 }
@@ -103,6 +103,7 @@ async function embeddedHandwriting(){
   return fontEmbedPromise;
 }
 function applyFaceTextures(){
+  if(innerWidth<=700)return;
   if(!faceTextures||faceTextures.key!==textureKey()||appliedTextureKey===faceTextures.key||builtStrips<stripCount)return;
   for(const crop of leafCrops){
     const image=new Image();image.alt='';image.draggable=false;image.src=faceTextures[crop.side];
@@ -114,7 +115,7 @@ function applyFaceTextures(){
   if(innerWidth>700&&pageRenderer?.setFaces(faceTextures.frontImage,faceTextures.backImage)){turningPage.classList.add('gpu-page');turningPage.dataset.renderMode='webgl';pageRenderer.warmUp(pageWidth,pageHeight);}
 }
 async function prepareFaceTextures(){
-  if(staticBook())return;
+  if(staticBook()||innerWidth<=700)return;
   const request=++textureRequest,key=textureKey();
   try{
     await import('./vendor/html-to-image.js');
@@ -146,6 +147,14 @@ document.fonts.ready.then(scheduleFaceTextures);
 addEventListener('resize',()=>{if(faceTextures?.key!==textureKey())invalidateFaceTextures();});
 
 function curveLeaf(turn) {
+  if(innerWidth<=700){
+    // A phone shows one whole sheet. Desktop strips clone only the photo side
+    // of a spread and must not be layered over the full mobile biography.
+    pageRenderer?.hide();turningPage.classList.remove('gpu-page');
+    turningPage.dataset.renderMode='mobile-sheet';
+    castShadow.style.opacity=String(Math.sin(Math.PI*turn)*.35);
+    lastCurveTurn=turn;return;
+  }
   if(turn>0&&turn<1&&builtStrips<stripCount)buildLeafStrips();
   if(turn<=.001||turn>=.999)applyFaceTextures();
   if(Math.abs(lastCurveTurn-turn)<.000001)return;
@@ -211,8 +220,9 @@ function updateBook() {
   cover.style.opacity='1';
   turningPage.style.opacity='1';
   turningPage.style.visibility=turning?'visible':'hidden';
-  biography.style.opacity='1';biography.style.visibility=turning?'visible':'hidden';
-  biography.querySelector('.bio-photo-page').style.visibility=(innerWidth<=700&&turning)||turn>=.999?'visible':'hidden';
+  const showBio=innerWidth<=700?turn>=.5:turning;
+  biography.style.opacity='1';biography.style.visibility=showBio?'visible':'hidden';
+  biography.querySelector('.bio-photo-page').style.visibility=(innerWidth<=700?showBio:turn>=.999)?'visible':'hidden';
   index.style.opacity='1';index.style.visibility='visible';
   index.querySelector('.index-links').style.visibility=turning?'hidden':'visible';
   index.querySelector('.index-art').style.visibility=turn>=.999?'hidden':'visible';

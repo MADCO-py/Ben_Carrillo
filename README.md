@@ -171,3 +171,5 @@ La merch actual contiene seis prendas y usa `js/shop.js` para producto, talla, b
 Prueba: `node scripts/check-shop-guestbook.cjs`, con `BROWSER=firefox` para el segundo motor.
 
 Los ocho dibujos suministrados para el índice están ordenados en `assets/images/cuaderno/`, con originales conservados. `css/notebook-art.css` ajusta los iconos, el nombre y los volcanes en escritorio y móvil.
+
+En móvil el giro usa una hoja completa del índice, sin las caras segmentadas del escritorio ni la copia de foto/título al dorso. La biografía se revela después de pasar el canto de la hoja. Su encabezado queda contenido y la lectura interior no propaga el scroll al giro del libro. El recorrido móvil se calcula con el mismo alto real del escenario para mantenerlo estable cuando cambian las barras del navegador.
