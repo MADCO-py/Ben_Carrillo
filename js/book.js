@@ -323,34 +323,7 @@ async function renderTour(){
   row.append(date,title,venue,action);list.append(row);
  }
 }
-const merchDialog=document.createElement('dialog');merchDialog.className='product-dialog';merchDialog.setAttribute('aria-label','Merch — concepto');document.body.append(merchDialog);
-merchDialog.addEventListener('click',e=>{if(e.target===merchDialog){const r=merchDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)merchDialog.close();}});
-async function renderMerch(){
- const response=await fetch('content/merch.json');if(!response.ok)throw new Error('Merch data unavailable');
- const data=await response.json(),grid=document.querySelector('#merch-grid');
- for(const product of data.products){
-  const card=document.createElement('button');card.type='button';card.className='product-card';card.dataset.category=product.category;card.dataset.detailLabel=product.id;card.setAttribute('aria-label',`${text('merchDetails','Ver concepto')}: ${product.id}`);
-  const image=document.createElement('img');image.src=`assets/images/merch/${product.shape}.svg`;image.alt=product.name;image.width=300;image.height=300;image.loading='lazy';
-  const title=document.createElement('span');title.textContent=product.id;
-  const price=document.createElement('small');price.textContent=`US$${product.price}`;
-  card.append(image,title,price);grid.append(card);
-  card.addEventListener('click',()=>{
-    merchDialog.replaceChildren();
-    const close=document.createElement('button');close.type='button';close.className='dialog-close';close.textContent='×';close.setAttribute('aria-label',text('close','Cerrar'));close.addEventListener('click',()=>merchDialog.close());
-    const detailImage=image.cloneNode();detailImage.loading='eager';
-    const heading=document.createElement('h2');heading.textContent=product.name;
-    const amount=document.createElement('p');amount.textContent=`US$${product.price} · ${text('demoPrice','Precio de ejemplo')}`;
-    const note=document.createElement('p');note.textContent=text('productConcept','Producto conceptual. No está a la venta. Imagen y precio provisionales.');
-    const notify=document.createElement('a');notify.href='#mailing';notify.className='button button-dark';notify.textContent=text('notifyMe','Avisame');notify.addEventListener('click',()=>merchDialog.close());
-    merchDialog.append(close,detailImage,heading,amount,note,notify);merchDialog.showModal();
-  });
- }
- document.querySelectorAll('[data-merch-filter]').forEach(button=>button.addEventListener('click',()=>{
-  document.querySelectorAll('[data-merch-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
-  grid.querySelectorAll('.product-card').forEach(card=>{card.hidden=button.dataset.merchFilter!=='all'&&button.dataset.merchFilter!==card.dataset.category;});
- }));
-}
-Promise.all([renderTour(),renderMerch()]).catch(error=>console.error(error));
+renderTour().catch(error=>console.error(error));
 const form=document.querySelector('#mailing-form');
 const phoneField=setupPhoneField(form,text);
 form.addEventListener('submit',e=>{
@@ -377,7 +350,7 @@ function addEffort(delta){
 }
 addEventListener('scroll',()=>{if(!atBottom()){bottomSince=0;resetEffort();}else if(!bottomSince)bottomSince=performance.now();},{passive:true});
 addEventListener('wheel',e=>{if(e.deltaY>0)addEffort(Math.min(e.deltaY,140));else resetEffort();},{passive:true});
-addEventListener('touchstart',e=>{touchY=e.touches[0]?.clientY;touchStartedAtBottom=atBottom();},{passive:true});
+addEventListener('touchstart',e=>{if(e.target.closest('canvas')){touchY=null;touchStartedAtBottom=false;return;}touchY=e.touches[0]?.clientY;touchStartedAtBottom=atBottom();},{passive:true});
 addEventListener('touchend',e=>{const end=e.changedTouches[0]?.clientY;if(touchStartedAtBottom&&touchY!==null&&touchY-end>40)addEffort(230);touchY=null;},{passive:true});
-addEventListener('keydown',e=>{if(e.target.closest('input,textarea,select,button,a')||e.ctrlKey||e.metaKey||e.altKey)return;if(['ArrowDown','PageDown',' '].includes(e.key))addEffort(e.key==='ArrowDown'?90:230);});
+addEventListener('keydown',e=>{if(e.target.closest('input,textarea,select,button,a,canvas')||e.ctrlKey||e.metaKey||e.altKey)return;if(['ArrowDown','PageDown',' '].includes(e.key))addEffort(e.key==='ArrowDown'?90:230);});
 document.querySelector('#restart-book').addEventListener('click',restart);

@@ -6,84 +6,83 @@
       "name": "Camiseta — Raíces",
       "category": "clothing",
       "shape": "shirt",
-      "price": 35
+      "price": 35,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
     },
     {
       "id": "BC-02",
       "name": "Sudadera — El camino",
       "category": "clothing",
       "shape": "hoodie",
-      "price": 75
-    },
-    {
-      "id": "BC-03",
-      "name": "Gorra — GT / LA",
-      "category": "clothing",
-      "shape": "cap",
-      "price": 28
-    },
-    {
-      "id": "BC-04",
-      "name": "Tote — De Guatemala",
-      "category": "objects",
-      "shape": "tote",
-      "price": 22
-    },
-    {
-      "id": "BC-05",
-      "name": "Cuaderno — Vol. 01",
-      "category": "objects",
-      "shape": "book",
-      "price": 25
-    },
-    {
-      "id": "BC-06",
-      "name": "Póster — Hijo de Jah",
-      "category": "objects",
-      "shape": "poster",
-      "price": 18
+      "price": 75,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
     },
     {
       "id": "BC-07",
       "name": "Chaqueta — Horizonte",
       "category": "clothing",
       "shape": "jacket",
-      "price": 85
+      "price": 85,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
     },
     {
       "id": "BC-08",
       "name": "Short — Costa",
       "category": "clothing",
       "shape": "shorts",
-      "price": 32
+      "price": 32,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
     },
     {
       "id": "BC-09",
       "name": "Pantalón — Camino",
       "category": "clothing",
       "shape": "pants",
-      "price": 55
+      "price": 55,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
     },
     {
       "id": "BC-10",
       "name": "Tank — Pacífico",
       "category": "clothing",
       "shape": "tank",
-      "price": 25
-    },
-    {
-      "id": "BC-11",
-      "name": "Calcetines — GT",
-      "category": "clothing",
-      "shape": "socks",
-      "price": 12
-    },
-    {
-      "id": "BC-12",
-      "name": "Botas — Desierto",
-      "category": "clothing",
-      "shape": "boots",
-      "price": 95
+      "price": 25,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
     }
-  ]
+  ],
+  "currency": "USD",
+  "shippingCountries": [
+    "US"
+  ],
+  "paymentsEnabled": false
 }

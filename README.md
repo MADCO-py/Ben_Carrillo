@@ -79,14 +79,14 @@ La comprobación verifica anchos de 360, 390, 768, 1024 y 1440 píxeles, idiomas
 - `assets/images/stickers/`: los cinco stickers proporcionados por el usuario, conservados tal cual. Tamaño, superposición, recorte visual y rotación se ajustan con `.sticker-*` en `css/book.css`.
 - `css/schoolbell.css`: **Schoolbell**, solicitada por el usuario, guardada localmente con licencia Apache 2.0. `css/art-direction.css` aplica papel rayado, marcas, manchas y el cambio a la estética azul y blanca de Los Ángeles. Caveat se conserva como recurso anterior, sin ser la fuente activa del libro.
 - `content/tour.json`: fechas **ficticias de demostración**, señaladas en la interfaz. No hay venta de entradas.
-- `content/merch.json`: productos y precios **conceptuales**, editables. Ilustraciones SVG originales en `assets/images/merch/`. No hay carrito ni cobros conectados.
+- `content/merch.json`: productos y precios **conceptuales**, editables. Ilustraciones SVG originales en `assets/images/merch/`. Hay bolsa y checkout de vista previa; no hay cobros conectados.
 - Mailing list: formulario demostrativo con validación y consentimiento. **No envía ni guarda correos**, ni afirma una suscripción exitosa. Requiere conectar un proveedor antes de usarlo públicamente.
 - Coming soon: espacio editorial sin anuncio inventado.
 - Final: llegar al fondo no reinicia. Se necesita insistir bajando con rueda, varios gestos táctiles o teclado; también existe un botón directo. Al reiniciar, se vuelve a la cubierta.
 
 La biografía aprobada se trasladó completa al cuaderno. Prensa, fotos y redes siguen disponibles en el viaje. Las cifras y fechas demo deben sustituirse antes de anunciar productos o conciertos reales.
 
-La hoja usa dieciséis segmentos con anverso y reverso: la curvatura crece durante el giro y desaparece al asentarse, donde se dibuja una cara completa para evitar costuras. Las texturas vectoriales están en `assets/textures/`. La colección de merch contiene doce productos conceptuales y mantiene fondo blanco, prendas negras y etiquetas pequeñas.
+La hoja usa dieciséis segmentos con anverso y reverso: la curvatura crece durante el giro y desaparece al asentarse, donde se dibuja una cara completa para evitar costuras. Las texturas vectoriales están en `assets/textures/`. La colección de merch contiene seis prendas conceptuales y mantiene fondo blanco, prendas negras y etiquetas pequeñas.
 
 ## Transiciones y flechas del cuaderno
 
@@ -163,3 +163,9 @@ La cubierta usa el azul `#164397`, muestreado de la referencia del usuario, cons
 El selector desplegable mantiene el orden de `js/locales.js`. Árabe activa RTL para los textos; el libro y el recorrido horizontal conservan sus coordenadas físicas. Kaqchikel (`cak`) es distinto de k’iche’ (`quc`): solo las etiquetas documentadas están traducidas; los textos largos llevan `lang="es"` y un aviso visible. El glosario de referencia se registra en `docs/FUENTES.md`.
 
 `node scripts/check-locales.cjs` verifica los seis idiomas en escritorio y móvil, persistencia, dirección, firma, color y validación de teléfono. Requiere Playwright y servidor local.
+
+## Tienda y firmas (actualización)
+
+La merch actual contiene seis prendas y usa `js/shop.js` para producto, talla, bolsa y checkout de vista previa con envío solo a Estados Unidos. Los cobros siguen desactivados. `js/guestbook.js` agrega la hoja de firmas con color fijo por navegador y persistencia local en IndexedDB. No hay mural compartido todavía. Ver [conexión de pagos y mural](docs/COMPRAS_Y_FIRMAS.md) para el estado exacto y la siguiente fase de backend.
+
+Prueba: `node scripts/check-shop-guestbook.cjs`, con `BROWSER=firefox` para el segundo motor.

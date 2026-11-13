@@ -21,7 +21,7 @@ const assert = require('node:assert/strict');
  for(const lang of ['en','ar','cak','pt','ru','es']){
   await page.locator('#language-menu').evaluate(el=>el.open=true);
   await page.locator(`[data-lang="${lang}"]`).click();
-  await page.waitForFunction(lang=>document.documentElement.lang===lang,lang);
+  await page.waitForFunction(lang=>document.documentElement.lang===lang&&!document.querySelector('#language-menu').open,lang);
   assert.equal(await page.locator('h1').textContent(),originalBookTitle,'Book title stays in Spanish across languages');
  }
  const dims=await page.evaluate(()=>({w:innerWidth,sw:document.documentElement.scrollWidth}));assert(dims.sw<=dims.w,JSON.stringify(dims));
@@ -70,11 +70,8 @@ const assert = require('node:assert/strict');
  }
  assert.equal(await page.locator('.cover-sticker img').count(),3);
  assert.equal(await page.locator('.tour-row').count(),3);
- assert.equal(await page.locator('.product-card').count(),12);
- await page.locator('[data-merch-filter="objects"]').click();
- assert.equal(await page.locator('.product-card:visible').count(),3);
- await page.locator('.product-card:visible').first().click();assert(await page.locator('.product-dialog').isVisible());await page.keyboard.press('Escape');
- await page.locator('[data-merch-filter="all"]').click();assert.equal(await page.locator('.product-card:visible').count(),12);
+ assert.equal(await page.locator('.product-card').count(),6);
+ await page.locator('.product-card').first().click();assert(await page.locator('.product-dialog').isVisible());await page.keyboard.press('Escape');
  await page.locator('#email').fill('demo@example.com');await page.locator('[name="consent"]').check();await page.locator('#mailing-form button').click();
  assert(await page.locator('#mail-status').isVisible());assert.equal(await page.locator('#email').inputValue(),'');
  // At the bottom there is no automatic redirect. Deliberate extra wheel effort restarts.
@@ -110,6 +107,6 @@ const assert = require('node:assert/strict');
  await page.locator('[data-provider="Spotify"]').click();
  assert.equal(await page.locator('#album iframe').count(),1);
  assert.deepEqual(errors,[]);
- console.log('PASS: notebook, 3 stickers, tour, merch filters/dialog, demo mailing, deliberate restart, desktop, 360/390/768/1024px, EN/ES/AR/KAQCHIKEL/PT/RU, reverse scroll, menu, credits, reduced motion, deferred players, images, no JS errors.');
+ console.log('PASS: notebook, 3 stickers, tour, 6 garments / product dialog, demo mailing, deliberate restart, desktop, 360/390/768/1024px, EN/ES/AR/KAQCHIKEL/PT/RU, reverse scroll, menu, credits, reduced motion, deferred players, images, no JS errors.');
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});
