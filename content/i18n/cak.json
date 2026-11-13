@@ -232,5 +232,7 @@
   "signStorage": "El almacenamiento no está disponible. Tu dibujo sigue en la página.",
   "signFull": "Este dibujo está lleno. Guardalo y empezá otro.",
   "signDrawing": "Dibujo guardado",
-  "signDelete": "Eliminar dibujo"
+  "signDelete": "Eliminar dibujo",
+  "signOpen": "Dibujar en pantalla completa ↗",
+  "signClose": "Listo ×"
 }

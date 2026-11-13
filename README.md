@@ -169,3 +169,5 @@ El selector desplegable mantiene el orden de `js/locales.js`. Árabe activa RTL 
 La merch actual contiene seis prendas y usa `js/shop.js` para producto, talla, bolsa y checkout de vista previa con envío solo a Estados Unidos. Los cobros siguen desactivados. `js/guestbook.js` agrega la hoja de firmas con color fijo por navegador y persistencia local en IndexedDB. No hay mural compartido todavía. Ver [conexión de pagos y mural](docs/COMPRAS_Y_FIRMAS.md) para el estado exacto y la siguiente fase de backend.
 
 Prueba: `node scripts/check-shop-guestbook.cjs`, con `BROWSER=firefox` para el segundo motor.
+
+Los ocho dibujos suministrados para el índice están ordenados en `assets/images/cuaderno/`, con originales conservados. `css/notebook-art.css` ajusta los iconos, el nombre y los volcanes en escritorio y móvil.

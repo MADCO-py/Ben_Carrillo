@@ -2,6 +2,22 @@ const canvas=document.querySelector('#signature-canvas');
 const paper=canvas.closest('.signature-paper');
 const wall=document.querySelector('#signature-wall');
 const status=document.querySelector('#signature-status');
+const studioStatus=document.querySelector('#signature-studio-status');
+const studio=document.querySelector('#signature-dialog');
+const launch=document.querySelector('#signature-open');
+let ownsFullscreen=false;
+function setStatus(message){status.textContent=studioStatus.textContent=message;}
+function closeStudio(){studio.close();}
+function openStudio(){setStatus('');studio.showModal();resize();}
+launch.addEventListener('click',()=>{
+ // Enter browser fullscreen first, then put the modal above that top layer.
+ if(!document.fullscreenElement&&document.documentElement.requestFullscreen){
+  document.documentElement.requestFullscreen().then(()=>{ownsFullscreen=true;openStudio();}).catch(openStudio);
+ }else openStudio();
+});
+document.querySelector('#signature-close').addEventListener('click',closeStudio);
+studio.addEventListener('close',()=>{active=null;if(ownsFullscreen&&document.fullscreenElement)document.exitFullscreen().catch(()=>{});ownsFullscreen=false;});
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&ownsFullscreen){ownsFullscreen=false;if(studio.open)studio.close();}});
 const undo=document.querySelector('#signature-undo'),clear=document.querySelector('#signature-clear'),save=document.querySelector('#signature-save');
 const t=(key,fallback)=>globalThis.benLocale?.messages?.[key]||fallback;
 let ink,strokes=[],active=null,marks=[],db,canPersist=false,saving=false;
@@ -30,13 +46,13 @@ function update(){
  paint(canvas,strokes,ink);paper.classList.toggle('has-ink',strokes.length>0);
  undo.disabled=clear.disabled=!strokes.length;save.disabled=!strokes.length||saving;
 }
-function resize(){const r=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);update();}
+function resize(){const r=canvas.getBoundingClientRect();if(!r.width||!r.height)return;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);update();}
 new ResizeObserver(resize).observe(canvas);
 function point(e){const r=canvas.getBoundingClientRect();return [Math.round(Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*10000)/10000,Math.round(Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))*10000)/10000];}
 canvas.addEventListener('pointerdown',e=>{
  if(!e.isPrimary||e.button!==0||saving)return;
- if(strokes.reduce((n,s)=>n+s.length,0)>=6000){status.textContent=t('signFull','This drawing is full. Save it and start another.');return;}
- e.preventDefault();canvas.setPointerCapture(e.pointerId);active=[point(e)];strokes.push(active);status.textContent='';update();
+ if(strokes.reduce((n,s)=>n+s.length,0)>=6000){setStatus(t('signFull','This drawing is full. Save it and start another.'));return;}
+ e.preventDefault();canvas.setPointerCapture(e.pointerId);active=[point(e)];strokes.push(active);setStatus('');update();
 });
 canvas.addEventListener('pointermove',e=>{
  if(!active||!e.isPrimary)return;
@@ -47,7 +63,7 @@ canvas.addEventListener('pointermove',e=>{
 function end(){active=null;}
 canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);canvas.addEventListener('lostpointercapture',end);
 undo.addEventListener('click',()=>{active=null;strokes.pop();update();});
-clear.addEventListener('click',()=>{active=null;strokes=[];status.textContent='';update();});
+clear.addEventListener('click',()=>{active=null;strokes=[];setStatus('');update();});
 function transaction(mode,action){return new Promise((resolve,reject)=>{const tx=db.transaction('marks',mode);let result;action(tx.objectStore('marks'),value=>result=value);tx.oncomplete=()=>resolve(result);tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});}
 function renderWall(){
  previewObserver.disconnect();wall.replaceChildren();
@@ -57,7 +73,7 @@ function renderWall(){
   remove.type='button';remove.textContent='×';remove.setAttribute('aria-label',t('signDelete','Delete drawing'));
   remove.addEventListener('click',async()=>{
    try{if(canPersist)await transaction('readwrite',store=>store.delete(mark.id));marks=marks.filter(m=>m.id!==mark.id);renderWall();}
-   catch{status.textContent=t('signStorage','Storage is unavailable. Your drawing is still on the page.');}
+   catch{setStatus(t('signStorage','Storage is unavailable. Your drawing is still on the page.'));}
   });
   figure.append(preview,remove);wall.append(figure);previews.set(preview,mark);previewObserver.observe(preview);
  }
@@ -66,7 +82,7 @@ async function init(){
  try{
   db=await new Promise((resolve,reject)=>{const request=indexedDB.open('ben-guestbook-v1',1);request.onupgradeneeded=()=>request.result.createObjectStore('marks',{keyPath:'id'});request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);request.onblocked=()=>reject(new Error('Storage blocked'));});
   marks=await transaction('readonly',(store,done)=>{const request=store.getAll();request.onsuccess=()=>done(request.result);});canPersist=true;renderWall();
- }catch{canPersist=false;status.textContent=t('signStorage','Storage is unavailable. Your drawing is still on the page.');}
+ }catch{canPersist=false;setStatus(t('signStorage','Storage is unavailable. Your drawing is still on the page.'));}
 }
 save.addEventListener('click',async()=>{
  if(!strokes.length||saving)return;
@@ -74,9 +90,9 @@ save.addEventListener('click',async()=>{
  const mark={id:crypto.randomUUID(),ink,strokes:structuredClone(strokes),createdAt:new Date().toISOString()};
  try{
   if(canPersist)await transaction('readwrite',store=>store.put(mark));
-  marks.push(mark);strokes=[];renderWall();status.textContent=canPersist?t('signSaved','Saved on this browser. Maltiox!'):t('signStorage','Storage is unavailable. Your drawing is still on the page.');
- }catch{status.textContent=t('signStorage','Storage is unavailable. Your drawing is still on the page.');}
+  marks.push(mark);strokes=[];renderWall();setStatus(canPersist?t('signSaved','Saved on this browser. Maltiox!'):t('signStorage','Storage is unavailable. Your drawing is still on the page.'));if(canPersist)closeStudio();
+ }catch{setStatus(t('signStorage','Storage is unavailable. Your drawing is still on the page.'));}
  finally{saving=false;update();}
 });
-document.addEventListener('ben-language',()=>{renderWall();status.textContent='';});
+document.addEventListener('ben-language',()=>{renderWall();setStatus('');});
 init();resize();

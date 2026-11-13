@@ -209,5 +209,7 @@
   "signStorage": "Storage is unavailable. Your drawing is still on the page.",
   "signFull": "This drawing is full. Save it and start another.",
   "signDrawing": "Saved drawing",
-  "signDelete": "Delete drawing"
+  "signDelete": "Delete drawing",
+  "signOpen": "Open full screen ↗",
+  "signClose": "Done ×"
 }

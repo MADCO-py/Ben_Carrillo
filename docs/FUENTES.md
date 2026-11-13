@@ -102,3 +102,9 @@ El selector actual usa Kaqchikel (`cak`), no k’iche’. `content/i18n/cak.json
 - Kaqchikel Cholchi’, *Kaqchikel choltzij, kolon chuqa’ k’ak’a’ taq tzij* (2011): https://popol-mayab.org/wp-content/uploads/2015/09/kaqchikel_choltzij.pdf — etiquetas q’ojom (música), cholwuj (índice), ruxaq kan / ruxaq apon (página anterior / siguiente), taqoya’l (correo electrónico), b’anob’äl (historia), ch’ab’äl (idioma), ak’axanïk (escuchar) y tz’apixïk (cerrar).
 
 Las versiones árabe, portuguesa y rusa se prepararon a partir del contenido EN/ES del usuario. Las frases propias del artista se conservan sin traducir. La cubierta azul procede de la referencia del usuario; muestra de color `#164397`.
+
+## Dibujos de lapicero del índice
+
+Ocho PNG aportados por el usuario: carita (historia), audífonos (música), avión (tour), camiseta (merch), sobre (mailing), interrogación (próximamente), dos volcanes con lago y el nombre Ben Carrillo escrito a mano. Originales en `assets/images/cuaderno/originales/`, copias WebP sin pérdida en la carpeta superior. Se verificó igualdad de píxeles RGBA entre cada original y su WebP.
+
+Se integran con imágenes dentro de SVG cuyos `viewBox` encuadran los trazos sin modificar el dibujo original. La firma de la biografía y la cubierta se conservan; los reemplazos están dentro del cuaderno. En celular se incluye una cabecera pequeña con nombre y volcanes sobre el índice de seis capítulos.

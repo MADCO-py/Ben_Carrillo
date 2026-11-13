@@ -105,7 +105,7 @@ async function init(){
  const response=await fetch('content/merch.json');if(!response.ok)throw new Error('Merch data unavailable');const data=await response.json();products=data.products;
  try{const saved=JSON.parse(localStorage.getItem('ben-bag-v1')||'[]');if(Array.isArray(saved))for(const item of saved.slice(0,24)){const p=productFor(item.id);if(p&&p.sizes.includes(item.size)&&Number.isInteger(item.quantity)&&item.quantity>0&&item.quantity<=10&&!cart.some(x=>x.id===item.id&&x.size===item.size))cart.push({id:item.id,size:item.size,quantity:item.quantity});}}catch{}
  const grid=document.querySelector('#merch-grid');
- for(const product of products){const card=button('',()=>show('product',product),'product-card');card.dataset.product=product.id;card.dataset.category=product.category;card.setAttribute('aria-label',`${t('shopView','View product')}: ${product.id}`);const img=image(product);img.loading='lazy';card.append(img,node('span','',product.id),node('small','',`US$${product.price}`));grid.append(card);}
+ for(const product of products){const card=button('',()=>show('product',product),'product-card');card.dataset.product=product.id;card.dataset.category=product.category;card.setAttribute('aria-label',`${t('shopView','View product')}: ${product.id}`);const img=image(product);img.loading='eager';card.append(img,node('span','',product.id),node('small','',`US$${product.price}`));grid.append(card);}
  persist();
 }
 init().catch(error=>{console.error(error);document.querySelector('#merch-grid').textContent=t('shopUnavailable','The collection is unavailable. Please try again later.');});

@@ -209,5 +209,7 @@
   "signStorage": "O armazenamento está indisponível. Seu desenho continua na página.",
   "signFull": "Este desenho está cheio. Salve e comece outro.",
   "signDrawing": "Desenho salvo",
-  "signDelete": "Excluir desenho"
+  "signDelete": "Excluir desenho",
+  "signOpen": "Abrir em tela cheia ↗",
+  "signClose": "Pronto ×"
 }
