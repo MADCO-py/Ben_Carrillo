@@ -1,0 +1,58 @@
+/* Sampled from the supplied blue notebook: RGB 22, 67, 151. */
+.cover-face{background-color:#164397;background-image:url('../assets/textures/cover-scuffs.webp'),linear-gradient(90deg,#041633aa,transparent 5%,#729bea22 7%,transparent 11%,#071b4933 97%,#04163399),repeating-linear-gradient(0deg,transparent 0 2px,#071d4e20 2px 3px),repeating-linear-gradient(90deg,transparent 0 2px,#a4bded0d 2px 3px);background-size:100% 100%,100% 100%,3px 3px,3px 3px;box-shadow:inset 0 0 65px #06193755}
+.cover-spine{background:#071b4980;border-right-color:#9dbaf04d}
+.book-signature{flex-wrap:wrap;gap:5px 16px}
+.book-signature img{width:min(430px,100%)}
+.language-menu{position:relative;font-family:'DM Sans',Arial,sans-serif}
+.language-menu summary{display:flex;align-items:center;gap:10px;list-style:none;cursor:pointer;min-height:40px;font-size:11px;white-space:nowrap}
+.language-menu summary::-webkit-details-marker{display:none}
+.language-menu summary::after{content:'';width:6px;height:6px;border-right:1px solid;border-bottom:1px solid;transform:rotate(45deg) translateY(-2px)}
+.language-menu[open] summary::after{transform:rotate(225deg)}
+.language-menu .languages{position:absolute;inset-inline-end:0;top:calc(100% + 8px);z-index:50;display:flex;flex-direction:column;align-items:stretch;gap:0;min-width:190px;max-height:70dvh;overflow:auto;background:#fff;color:#16345a;border:1px solid #d9e3f0;box-shadow:0 10px 30px #071b3b26;padding:6px}
+.language-menu .languages button,.book-closed .language-menu .languages button{font-family:'DM Sans',Arial,sans-serif!important;min-height:42px;width:100%;text-align:start;padding:10px 14px;font-size:13px;letter-spacing:0;opacity:1;color:#16345a;background:transparent}
+.language-menu .languages button:hover{background:#edf3ff}
+.language-menu .languages button[aria-pressed=true],.book-closed .language-menu .languages button[aria-pressed=true]{background:#164397;color:#fff;border-radius:0}
+.language-menu .languages button[lang=ar]{font-family:Tahoma,Arial,sans-serif!important}
+[data-fixed-phrase]{direction:ltr;unicode-bidi:isolate}
+/* Keep the physical spine, curved strips and horizontal journey in one coordinate
+   system; Arabic text is RTL inside these surfaces, rather than reversing them. */
+html[dir=rtl] .book-stage,html[dir=rtl] .story-sticky,html[dir=rtl] .leaf-face,html[dir=rtl] .cover-inside{direction:ltr}
+html[dir=rtl] [data-i18n]{font-family:Tahoma,Arial,sans-serif;letter-spacing:0;text-align:right;line-height:1.6}
+html[dir=rtl] .book-journey [data-i18n]{transform:none!important}
+html[dir=rtl] .book-journey h1,html[dir=rtl] .cover-title,html[dir=rtl] .ben-phrases,html[dir=rtl] .book-signature{direction:ltr;text-align:left}
+html[dir=rtl] .section-heading h2,html[dir=rtl] .album-copy h2,html[dir=rtl] .outro h2{line-height:1.2}
+html[dir=rtl] .book-journey .bio-text-page p:first-of-type{font-size:24px;line-height:1.5}
+html[dir=rtl] .book-journey .bio-text-page p{line-height:1.65;font-size:16px}
+html[lang=ru] .book-journey [data-i18n]{font-family:'Trebuchet MS',Arial,sans-serif;letter-spacing:0;line-height:1.35}
+html[lang=ru] h2,html[dir=rtl] h2{overflow-wrap:anywhere;min-width:0}
+html[lang=ru] .outro h2{font-size:clamp(48px,7.5vw,115px);line-height:1.1}
+html[lang=ru] .mailing h2{font-size:clamp(36px,6vw,80px);line-height:1.1}
+html[lang=ru] .index-label{font-size:clamp(30px,6.5vw,50px)}
+html[lang=ru] .chapter,html[lang=ar] .chapter{font-size:21px}
+input[type=tel],input[type=email]{direction:ltr;text-align:left}
+@media(max-width:700px){
+ .book-signature img{width:100%}
+ .book-signature span{margin-inline-start:auto}
+ .language-menu summary{font-size:11px}
+ .header-actions{gap:15px}
+ html[dir=rtl] .book-journey .bio-text-page p{font-size:12px;line-height:1.7}
+ html[dir=rtl] .book-journey .bio-text-page p:first-of-type{font-size:18px;line-height:1.5}
+ html[lang=ru] .book-journey .bio-text-page p{font-size:11.5px;line-height:1.5}
+ html[lang=ru] .book-journey .bio-text-page p:first-of-type{font-size:18px}
+ html[lang=ru] .chapter,html[lang=ar] .chapter{font-size:16px}
+ html[lang=ru] .index-links .margin-note,html[lang=ar] .index-links .margin-note{font-size:17px}
+ html[lang=ru] .index-links .book-next,html[lang=ar] .index-links .book-next{font-size:18px}
+ html[lang=ru] .outro h2{font-size:clamp(36px,9vw,58px)}
+}
+/* Long translated headings must fit even in narrow portrait viewports. */
+.outro h2{overflow-wrap:anywhere;min-width:0}
+.world{overflow:hidden}
+@media(max-width:700px){
+ .outro h2{font-size:clamp(45px,20vw,100px)}
+}
+.cover-bottom{right:8%;max-width:84%;overflow-wrap:anywhere}
+@media(max-width:700px){
+ html[lang=ru] .cover-bottom{font-size:16px}
+ html[lang=ru] .book-bottomline .open-book{font-size:15px}
+ html[lang=ar] .cover-bottom{font-size:18px}
+}

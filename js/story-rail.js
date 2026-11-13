@@ -1,5 +1,5 @@
-import { setupTikTokPlayers } from './tiktok-player.js?v=20261112-tiktok3';
-import { createStoryWalker } from './story-walker.js?v=20261112-walker3';
+import { setupTikTokPlayers } from './tiktok-player.js?v=20261113-languages1';
+import { createStoryWalker } from './story-walker.js?v=20261113-languages1';
 
 // Native vertical scroll drives a pinned horizontal chapter; no wheel interception.
 export function createStoryRail(section, desert, reducedMotion) {

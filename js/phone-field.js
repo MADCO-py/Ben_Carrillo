@@ -1,4 +1,5 @@
 import './vendor/libphonenumber-min.js';
+import {getLocale} from './locales.js?v=20261113-languages1';
 
 // Local numbering metadata; no lookup service receives the visitor's number.
 export function setupPhoneField(form, text) {
@@ -7,7 +8,7 @@ export function setupPhoneField(form, text) {
   const phone = globalThis.libphonenumber;
   function countries(language) {
     const selected = country.value || 'GT';
-    const locale = language === 'en' ? 'en' : 'es';
+    const locale = getLocale(language).intl;
     const names = new Intl.DisplayNames([locale], {type:'region'});
     const options = phone.getCountries().map(code => ({code, name:names.of(code) || code}));
     options.sort((a,b) => a.name.localeCompare(b.name,locale));

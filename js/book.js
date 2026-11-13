@@ -1,5 +1,6 @@
 import {createPageRenderer} from './page-renderer.js?v=20261111-firefox4';
-import {setupPhoneField} from './phone-field.js?v=20261112-brand2';
+import {setupPhoneField} from './phone-field.js?v=20261113-languages1';
+import {getLocale} from './locales.js?v=20261113-languages1';
 const section = document.querySelector('.book-journey');
 const notebook = document.querySelector('.notebook');
 const stage = document.querySelector('.book-stage');
@@ -121,6 +122,7 @@ async function prepareFaceTextures(){
     const faces={key};
     for(const [side,template]of [['front',frontTemplate],['back',backTemplate]]){
       const holder=document.createElement('div');holder.className='leaf-face leaf-'+side;holder.inert=true;holder.setAttribute('aria-hidden','true');
+      holder.dir='ltr';
       Object.assign(holder.style,{position:'fixed',left:'-20000px',right:'auto',top:'0',bottom:'auto',width:pageWidth+'px',height:stage.clientHeight+'px',display:'block',visibility:'visible',transform:'none',pointerEvents:'none'});
       const content=template.firstElementChild.cloneNode(true);holder.append(content);document.body.append(holder);
       try{
@@ -308,7 +310,7 @@ document.addEventListener('ben-language',event=>{
  document.querySelectorAll('.tour-date').forEach(el=>formatDate(el));
  document.querySelectorAll('[data-detail-label]').forEach(el=>el.setAttribute('aria-label',`${text('merchDetails','Ver concepto')}: ${el.dataset.detailLabel}`));
 });
-function formatDate(el){el.textContent=new Intl.DateTimeFormat(language==='quc'?'es-GT':language,{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(el.dataset.date+'T12:00:00Z'));}
+function formatDate(el){el.textContent=new Intl.DateTimeFormat(getLocale(language).intl,{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(el.dataset.date+'T12:00:00Z'));}
 async function renderTour(){
  const response=await fetch('content/tour.json');if(!response.ok)throw new Error('Tour data unavailable');
  const data=await response.json(),list=document.querySelector('#tour-list');

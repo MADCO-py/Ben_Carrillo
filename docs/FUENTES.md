@@ -35,7 +35,7 @@ Barlow Condensed (Jeremy Tribby), DM Sans (Colophon Foundry): distribución Goog
 
 ## K’iche’: investigación y límite
 
-`content/i18n/quc.json` contiene un borrador generado para revisión, tal como pidió el usuario. No equivale a una traducción profesional ni está validado por estas instituciones. Mantener el aviso visible hasta aprobación de una persona hablante de la variante elegida.
+`content/i18n/archive/quc.json` conserva un borrador generado para revisión, tal como pidió el usuario. No equivale a una traducción profesional ni está validado por estas instituciones. Ya no forma parte de los idiomas activos.
 
 Referencias consultadas:
 
@@ -93,3 +93,12 @@ El título permanece en español por decisión expresa del usuario. Los nombres 
 - Fotos actuales: “Ben spotify - Photo by Jose Misa-35.jpg”, “Ben (Lfor spotify) - Photo by Jose Misa-36.jpg” y “Ben - Nov 2026 (HighQuality) - Photo by Jose Misa-10.jpg”. Crédito Jose Misa según los nombres de los archivos proporcionados. La segunda copia de la foto 36 representa la misma toma y no se repite en la galería.
 - Biografía y sus hitos (Thalía, Bad Bunny, COLORS, DREAMER/Rolling Stone y reproducciones de “Centroamérica”): texto nuevo suministrado por el usuario. Se redactó su versión española, sin inventar un enlace de prensa ni presentar las cifras como una verificación independiente.
 - Validación telefónica local: libphonenumber-js 1.13.16, MIT. Fuente y documentación primaria: https://github.com/catamphetamine/libphonenumber-js. La biblioteca y su licencia están en `js/vendor/`; no se transmiten números a servicios de validación.
+
+## Kaqchikel: actualización de idiomas
+
+El selector actual usa Kaqchikel (`cak`), no k’iche’. `content/i18n/cak.json` es una traducción parcial: navegación y etiquetas documentadas, textos largos en español, aviso visible y metadatos `_meta.translatedKeys`. Requiere revisión por una persona hablante antes de considerarse completo.
+
+- Comunidad Lingüística Kaqchikel: https://kaqchikel.org.gt/tiqetamaj-ri-kaqchikel-chabal/
+- Kaqchikel Cholchi’, *Kaqchikel choltzij, kolon chuqa’ k’ak’a’ taq tzij* (2011): https://popol-mayab.org/wp-content/uploads/2015/09/kaqchikel_choltzij.pdf — etiquetas q’ojom (música), cholwuj (índice), ruxaq kan / ruxaq apon (página anterior / siguiente), taqoya’l (correo electrónico), b’anob’äl (historia), ch’ab’äl (idioma), ak’axanïk (escuchar) y tz’apixïk (cerrar).
+
+Las versiones árabe, portuguesa y rusa se prepararon a partir del contenido EN/ES del usuario. Las frases propias del artista se conservan sin traducir. La cubierta azul procede de la referencia del usuario; muestra de color `#164397`.

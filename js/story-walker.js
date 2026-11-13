@@ -13,9 +13,10 @@ export function createStoryWalker(section, reducedMotion) {
   let state = 0, x = 0, direction = 1, limit = 0, visible = false;
   let frame = 0, previousTime = 0, ready = false;
   let language = document.documentElement.lang;
+  let copy=globalThis.benLocale?.messages||{};
 
   function label(announce = false) {
-    const text = (messages[language] || messages.es)[state];
+    const text = copy[['walkerWalk','walkerRun','walkerSprint','walkerTurbo','walkerRest'][state]] || (messages[language] || messages.en)[state];
     actor.setAttribute('aria-label', text);
     actor.title = text;
     if (announce) status.textContent = text;
@@ -79,6 +80,7 @@ export function createStoryWalker(section, reducedMotion) {
   reducedMotion.addEventListener('change', sync);
   document.addEventListener('ben-language', event => {
     language = event.detail.language;
+    copy = event.detail.messages;
     label();
   });
   actor.addEventListener('click', () => {

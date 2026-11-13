@@ -133,6 +133,21 @@
   "creditDesertNote": "Paisaje usado como evocación visual.",
   "creditPhotos": "Retratos actuales: Jose Misa. Fotografías de infancia, firma, stickers y logo BC: facilitados por el equipo del artista. Fotografía de la playa: facilitada para esta propuesta; crédito original pendiente.",
   "creditMusic": "Portada: Ben Carrillo / Spotify. Miniaturas: respectivos videos de YouTube. Fuentes: Barlow Condensed y DM Sans (SIL Open Font License), Schoolbell (Apache 2.0).",
-  "creditKiche": "La versión k’iche’ es un borrador para revisión lingüística.",
-  "referenceDictionary": "Diccionario de referencia"
+  "referenceDictionary": "Diccionario de referencia",
+  "creditTranslation": "La versión kaqchikel está parcialmente traducida y pendiente de revisión lingüística. Los textos largos se muestran en español.",
+  "journeyPlace": "EL CAMINO",
+  "walkerWalk": "Caminando tranquilo. Tocá para correr.",
+  "walkerRun": "Corriendo. Tocá para ir más rápido.",
+  "walkerSprint": "¡Más rápido! Tocá para acelerar otra vez.",
+  "walkerTurbo": "¡A toda velocidad! Tocá para descansar.",
+  "walkerRest": "Un descanso y un poco de agua. Tocá para volver a caminar.",
+  "tourTitle": "TOUR.",
+  "merchTitle": "MERCH",
+  "comingSoonTitle": "MUY\nPRONTO.",
+  "postPhotos": "FOTOS",
+  "postVideo": "VIDEO",
+  "navTour": "Gira",
+  "navMerch": "Merch",
+  "navMailing": "Lista de correo",
+  "navSoon": "Próximamente"
 }

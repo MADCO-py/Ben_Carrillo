@@ -20,7 +20,7 @@ export function setupTikTokPlayers(cards) {
     const title = document.createElement('strong'); title.textContent = 'TikTok';
     const message = document.createElement('p'); message.dataset.i18n = 'tiktokUnavailable';
     message.textContent = card.querySelector('.story-player-error').textContent;
-    const retry = document.createElement('button'); retry.type = 'button'; retry.dataset.i18n = 'tiktokRetry'; retry.textContent = document.documentElement.lang === 'en' ? 'Try again' : 'Volver a intentar';
+    const retry = document.createElement('button'); retry.type = 'button'; retry.dataset.i18n = 'tiktokRetry'; retry.textContent = globalThis.benLocale?.messages?.tiktokRetry || 'Try again';
     const link = document.createElement('a'); link.href = card.querySelector('.story-post-link').href;
     link.target = '_blank'; link.rel = 'noopener'; link.dataset.i18n = 'openTiktok'; link.textContent = card.querySelector('.story-post-link span').textContent;
     overlay.append(title, message, retry, link);

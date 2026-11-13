@@ -18,7 +18,8 @@ const assert = require('node:assert/strict');
  await page.screenshot({path:'artifacts/desktop.png'});
  await page.screenshot({path:'artifacts/desktop-full.png',fullPage:true});
  const originalBookTitle = await page.locator('h1').textContent();
- for(const lang of ['en','quc','es']){
+ for(const lang of ['en','ar','cak','pt','ru','es']){
+  await page.locator('#language-menu').evaluate(el=>el.open=true);
   await page.locator(`[data-lang="${lang}"]`).click();
   await page.waitForFunction(lang=>document.documentElement.lang===lang,lang);
   assert.equal(await page.locator('h1').textContent(),originalBookTitle,'Book title stays in Spanish across languages');
@@ -109,6 +110,6 @@ const assert = require('node:assert/strict');
  await page.locator('[data-provider="Spotify"]').click();
  assert.equal(await page.locator('#album iframe').count(),1);
  assert.deepEqual(errors,[]);
- console.log('PASS: notebook, 3 stickers, tour, merch filters/dialog, demo mailing, deliberate restart, desktop, 360/390/768/1024px, ES/EN/K’iche’, reverse scroll, menu, credits, reduced motion, deferred players, images, no JS errors.');
+ console.log('PASS: notebook, 3 stickers, tour, merch filters/dialog, demo mailing, deliberate restart, desktop, 360/390/768/1024px, EN/ES/AR/KAQCHIKEL/PT/RU, reverse scroll, menu, credits, reduced motion, deferred players, images, no JS errors.');
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

@@ -1,5 +1,6 @@
 import { createTrackRow, setupPlatforms } from './music.js?v=20261112-tiktok3';
-import { createStoryRail } from './story-rail.js?v=20261112-tiktok3';
+import {locales,getLocale} from './locales.js?v=20261113-languages1';
+import { createStoryRail } from './story-rail.js?v=20261113-languages1';
 
 const root = document.documentElement;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -45,7 +46,7 @@ function updateWorld() {
   root.style.setProperty('--progress', clamp(y / positions.total).toFixed(4));
   journeyFill.style.height=(clamp(y/positions.total)*100).toFixed(2)+'%';
   document.body.classList.toggle('scrolled', y > positions.hero * .75);
-  document.querySelector('#journey-place').textContent = coast > .5 ? 'LOS ÁNGELES' : desert > .5 ? (language === 'en' ? 'THE JOURNEY' : language === 'quc' ? 'B’E' : 'EL CAMINO') : 'GUATEMALA';
+  document.querySelector('#journey-place').textContent = coast > .5 ? 'LOS ÁNGELES' : desert > .5 ? (messages.journeyPlace||'THE JOURNEY') : 'GUATEMALA';
 }
 addEventListener('scroll', () => { if (!scheduled) { scheduled = true; requestAnimationFrame(updateWorld); } }, { passive: true });
 addEventListener('resize', measure);
@@ -71,11 +72,14 @@ async function setLanguage(next) {
     if (requestId !== localeRequest) return;
     messages = nextMessages; language = next;
     root.lang = next;
+    root.dir = getLocale(next).direction;
     globalThis.benLocale = {language:next,messages:nextMessages};
     document.dispatchEvent(new CustomEvent('ben-language', { detail: { language: next, messages: nextMessages } }));
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const value = messages[el.dataset.i18n];
       if (!value) return;
+      el.lang = messages._meta?.translatedKeys && !messages._meta.translatedKeys.includes(el.dataset.i18n) ? 'es' : next;
+      el.dir = el.lang === 'ar' ? 'rtl' : 'ltr';
       el.replaceChildren(...value.split('\n').flatMap((part, i) => i ? [document.createElement('br'), document.createTextNode(part)] : [document.createTextNode(part)]));
     });
     document.querySelectorAll('[data-i18n-aria]').forEach(el=>{
@@ -85,7 +89,9 @@ async function setLanguage(next) {
       const value=messages[el.dataset.i18nPlaceholder];if(value)el.setAttribute('placeholder',value);
     });
     document.querySelectorAll('[data-lang]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.lang === next)));
-    document.querySelector('#translation-notice').hidden = next !== 'quc';
+    document.querySelector('#translation-notice').hidden = !getLocale(next).partial;
+    document.querySelector('#current-language').textContent = getLocale(next).name;
+    document.querySelector('#language-menu').open = false;
     document.querySelectorAll('[data-play]').forEach((button) => button.setAttribute('aria-label', `${t('play')}: ${button.dataset.title}`));
     document.querySelectorAll('[data-watch]').forEach((link) => { link.textContent = `${t('watchYoutube')} ↗`; });
     menuButton.setAttribute('aria-label', t('menu'));
@@ -96,9 +102,13 @@ async function setLanguage(next) {
   } catch (error) { console.error(error); }
 }
 document.querySelectorAll('[data-lang]').forEach((button) => button.addEventListener('click', () => setLanguage(button.dataset.lang)));
+document.addEventListener('click',event=>{
+  const menu=document.querySelector('#language-menu');if(!menu.contains(event.target))menu.open=false;
+});
+addEventListener('keydown',event=>{if(event.key==='Escape')document.querySelector('#language-menu').open=false;});
 let savedLanguage = 'en';
 try { savedLanguage = localStorage.getItem('ben-language-v2') || 'en'; } catch {}
-setLanguage(['en','es','quc'].includes(savedLanguage) ? savedLanguage : 'en');
+setLanguage(locales.some(locale=>locale.code===savedLanguage) ? savedLanguage : 'en');
 setupPlatforms();
 async function loadContent() {
   try {

@@ -14,13 +14,16 @@ Abrir http://localhost:4173. Usar un servidor local: abrir `index.html` directam
 
 ## Orden de los archivos
 
-- `index.html`: estructura de las secciones, enlaces y texto español inicial.
+- `index.html`: estructura de las secciones, enlaces y texto inglés inicial.
 - `css/style.css`: composición, colores, tamaños, móvil y movimiento reducido.
 - `css/fonts.css` y `assets/fonts/`: tipografías locales.
 - `js/app.js`: transición de paisajes, selector de idioma, menú y reproductores.
 - `content/i18n/es.json`: texto español de referencia.
 - `content/i18n/en.json`: versión inglesa.
-- `content/i18n/quc.json`: **borrador k’iche’ pendiente de revisión humana completa**.
+- `content/i18n/ar.json`, `pt.json`, `ru.json`: árabe, portugués y ruso.
+- `content/i18n/cak.json`: Kaqchikel parcial, con textos largos en español y aviso visible.
+- `content/i18n/archive/quc.json`: antiguo borrador k’iche’, conservado fuera del selector.
+- `js/locales.js`: orden, dirección y formato regional de los seis idiomas.
 - `content/album.json`: metadatos verificados del álbum y canciones.
 - `content/videos.json`: identificadores y títulos oficiales de los videos.
 - `assets/images/artista/`: retrato autorizado para esta propuesta y original.
@@ -31,7 +34,7 @@ Abrir http://localhost:4173. Usar un servidor local: abrir `index.html` directam
 
 ## Cambiar contenido
 
-1. Editar los textos en los tres JSON de `content/i18n/`, conservando sus claves. `\n` indica salto de línea. Al cambiar español, actualizar también el texto inicial correspondiente en `index.html` para mantener la versión sin JavaScript y los buscadores.
+1. Editar los textos en los seis JSON activos de `content/i18n/`, conservando sus claves. `\n` indica salto de línea. Al cambiar inglés, actualizar también el texto inicial correspondiente en `index.html` para mantener la versión sin JavaScript y los buscadores.
 2. Cambiar una foto conservando el nombre y proporción previstos, o actualizar su ruta y dimensiones en HTML. Conservar los originales. No usar las tres fotos del vestuario: fueron referencias, sin autorización para publicarlas.
 3. Para videos, editar `content/videos.json` y guardar una miniatura con el ID como nombre en `assets/images/videos/`. El reproductor no carga hasta pulsar reproducir.
 4. La selección musical está en `selected` dentro de `js/app.js`. Los IDs de canciones están en `content/album.json`.
@@ -59,7 +62,7 @@ La comprobación verifica anchos de 360, 390, 768, 1024 y 1440 píxeles, idiomas
 - Imágenes con dimensiones reservadas, fuentes locales y miniaturas locales.
 - Los reproductores de Spotify (álbum, artista y tres canciones) aparecen directamente y usan carga nativa diferida, sin reproducción automática. YouTube carga al activar sus videos. Los enlaces directos de las plataformas permiten escuchar incluso si un embed falla.
 - `prefers-reduced-motion` desactiva desplazamiento suave, animaciones y transformaciones decorativas.
-- ES / K’ICHE’ / EN conserva la selección en el navegador.
+- English / Español / العربية / Kaqchikel / Português / Русский conserva la selección en el navegador.
 - El título “¿QUIÉN PUTAS ES BEN CARRILLO?” se conserva en español.
 
 ## Pendientes antes de una publicación definitiva
@@ -119,7 +122,7 @@ En Firefox se priorizan las caras cacheadas con composición CSS nativa, evitand
 
 Los enlaces e identificadores están en `#historia` dentro de `index.html`. El primer post es de fotos. Los reproductores oficiales se crean automáticamente al entrar las tarjetas en pantalla y se pausan al salir; conservan sus portadas y controles nativos, sin un botón intermedio. Siempre hay un enlace externo y se muestra un aviso si TikTok informa un error. La disponibilidad de las publicaciones depende de TikTok; durante la prueba real el servicio respondió con errores de servidor. `js/tiktok-player.js` comprueba mensajes del reproductor (no solo el evento de carga), conserva un viewport nativo mínimo de 325 px escalado al espacio disponible y ofrece reintentar o abrir el post ante error o falta de respuesta. El estado de carga se retira cuando termina de cargar el documento nativo; no se espera obligatoriamente `onPlayerReady`, ya que algunos reproductores muestran la portada sin emitirlo. Se mantienen los avisos ante errores notificados por TikTok, fallos de red o carga que no termina. No se hacen reintentos automáticos. Si el servicio responde con HTTP 429, no puede garantizarse una portada nativa.
 
-Con movimiento reducido o pantallas de menos de 541 px de altura se usa una tira horizontal nativa sin fijar el capítulo. Incluye flechas, navegación con teclado y enlaces accesibles. Los textos nuevos de K’iche’ quedan provisionalmente en español para revisión.
+Con movimiento reducido o pantallas de menos de 541 px de altura se usa una tira horizontal nativa sin fijar el capítulo. Incluye flechas, navegación con teclado y enlaces accesibles. Kaqchikel muestra la navegación traducida y conserva los textos largos en español con aviso de revisión.
 
 Prueba del recorrido: `node scripts/check-story-rail.cjs` (acepta `BROWSER=firefox`, `PLAYWRIGHT_MODULE` y `SITE_URL`). Se simula solamente la respuesta externa de TikTok para comprobar posición fija, paralaje, salida, retorno, flechas y tamaños sin depender del servicio.
 
@@ -141,9 +144,9 @@ Prueba móvil: `node scripts/check-mobile-book.cjs`, con `BROWSER=firefox` opcio
 
 ### Identidad, archivo y formulario internacional
 
-La web abre en inglés en una visita nueva; español ocupa el segundo lugar y K’iche’ sigue como borrador con aviso. La nueva preferencia se guarda en `ben-language-v2`, para que el español que antes se guardaba por defecto no impida el nuevo inicio en inglés. Una elección posterior del visitante se conserva. El HTML inicial ya contiene la versión inglesa.
+La web abre en inglés en una visita nueva; español ocupa el segundo lugar; siguen árabe, Kaqchikel, portugués y ruso. Kaqchikel es parcial y muestra un aviso. La nueva preferencia se guarda en `ben-language-v2`, para que el español que antes se guardaba por defecto no impida el nuevo inicio en inglés. Una elección posterior del visitante se conserva. El HTML inicial ya contiene la versión inglesa.
 
-El cuaderno usa la firma suministrada, conserva el quetzal y reemplaza los otros stickers por el bus de Ben y la bolsa de Carrillo Merch. La biografía EN/ES procede del texto nuevo del usuario; la versión nueva de K’iche’ usa por ahora ese texto en español hasta revisión. “¿QUIÉN PUTAS ES BEN CARRILLO?”, Ahuevix, Maltiox, mis baddiez!! y simón! permanecen iguales en ambos idiomas.
+El cuaderno usa la firma suministrada, conserva el quetzal y reemplaza los otros stickers por el bus de Ben y la bolsa de Carrillo Merch. La biografía EN/ES procede del texto nuevo del usuario; Kaqchikel usa por ahora ese texto en español hasta revisión. “¿QUIÉN PUTAS ES BEN CARRILLO?”, Ahuevix, Maltiox, mis baddiez!! y simón! permanecen iguales en todos los idiomas.
 
 Las fotos originales están en `assets/images/artista/originales/` y las copias WebP de carga ligera, en la carpeta superior. La firma y el logo se guardan en `assets/images/marca/`; el favicon usa una exportación legible del monograma BC suministrado. Las fotos adultas de Jose Misa conservan su crédito. Los nombres descriptivos de las fotos de infancia no agregan identidades ni relaciones de las otras personas retratadas.
 
@@ -152,3 +155,11 @@ Hay cinco TikToks sin duplicados, en este orden: `7602424549593910542`, `7498185
 El correo sigue siendo obligatorio y el teléfono es opcional. `js/phone-field.js` ofrece países y códigos internacionales, acepta números nacionales o con prefijo +, valida y normaliza a E.164 mediante libphonenumber-js 1.13.16 (MIT), guardado en `js/vendor/`. No se consultan servicios externos con los números. El formulario sigue siendo una demostración: no guarda ni envía correos ni teléfonos.
 
 Pruebas de esta entrega: `node scripts/check-artist-refresh.cjs`, `node scripts/check-mobile-book.cjs` y `node scripts/check-tiktok-preview.cjs` (admiten `BROWSER=firefox`).
+
+## Idiomas y tapa azul
+
+La cubierta usa el azul `#164397`, muestreado de la referencia del usuario, conservando el desgaste y la textura. La firma al final de la biografía crece hasta 430 px y ocupa el ancho disponible en móvil.
+
+El selector desplegable mantiene el orden de `js/locales.js`. Árabe activa RTL para los textos; el libro y el recorrido horizontal conservan sus coordenadas físicas. Kaqchikel (`cak`) es distinto de k’iche’ (`quc`): solo las etiquetas documentadas están traducidas; los textos largos llevan `lang="es"` y un aviso visible. El glosario de referencia se registra en `docs/FUENTES.md`.
+
+`node scripts/check-locales.cjs` verifica los seis idiomas en escritorio y móvil, persistencia, dirección, firma, color y validación de teléfono. Requiere Playwright y servidor local.

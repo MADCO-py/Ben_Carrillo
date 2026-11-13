@@ -133,6 +133,21 @@
   "creditDesertNote": "A landscape used as a visual evocation.",
   "creditPhotos": "Current portraits: Jose Misa. Childhood photographs, signature, stickers and BC logo: supplied by the artist’s team. Beach photograph: supplied for this proposal; original credit pending.",
   "creditMusic": "Album art: Ben Carrillo / Spotify. Video thumbnails: their respective YouTube videos. Fonts: Barlow Condensed and DM Sans (SIL Open Font License), Schoolbell (Apache 2.0).",
-  "creditKiche": "The K’iche’ translation is a draft for linguistic review.",
-  "referenceDictionary": "Reference dictionary"
+  "referenceDictionary": "Reference dictionary",
+  "creditTranslation": "Kaqchikel is partially translated and awaiting linguistic review. Long texts are shown in Spanish.",
+  "journeyPlace": "THE JOURNEY",
+  "walkerWalk": "Taking a walk. Tap to run.",
+  "walkerRun": "Running. Tap to go faster.",
+  "walkerSprint": "Faster! Tap to speed up again.",
+  "walkerTurbo": "Full speed! Tap to rest.",
+  "walkerRest": "A rest and a little water. Tap to walk again.",
+  "tourTitle": "TOUR.",
+  "merchTitle": "MERCH",
+  "comingSoonTitle": "COMING\nSOON.",
+  "postPhotos": "PHOTOS",
+  "postVideo": "VIDEO",
+  "navTour": "Tour",
+  "navMerch": "Merch",
+  "navMailing": "Mailing list",
+  "navSoon": "Coming soon"
 }
